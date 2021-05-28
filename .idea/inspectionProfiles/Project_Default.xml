@@ -1,0 +1,44 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E303" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N801" />
+          <option value="N803" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="main._init_" />
+          <option value="pandas_datareader" />
+          <option value="EuropeanBsm.*" />
+          <option value="Basic_Template.BaseTemplateEquity.D1_V" />
+          <option value="Basic_Template.BaseTemplateIndex.Python" />
+          <option value="Basic_Template.BaseTemplateIndex.VBA" />
+          <option value="Basic_Template.BaseTemplateIndex.SQL" />
+          <option value="Basic_Template.BaseTemplateIndex.C" />
+          <option value="Basic_Template.BaseTemplateIndex.JAVA" />
+          <option value="Basic_Template.BaseTemplateIndex.R" />
+          <option value="Basic_Template.BaseTemplateIndex.English" />
+          <option value="Basic_Template.BaseTemplateIndex.French" />
+          <option value="Basic_Template.BaseTemplateIndex.Mathematics" />
+          <option value="Basic_Template.BaseTemplateIndex.Quantitative" />
+          <option value="Basic_Template.BaseTemplateIndex.QuantitativeFinance" />
+          <option value="Basic_Template.BaseTemplateIndex.Econometrics" />
+          <option value="Basic_Template.BaseTemplateIndex.*" />
+          <option value="MonteCarlo_Template.x.*" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
