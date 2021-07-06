@@ -4,14 +4,14 @@ import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
-from src._actuarial_implementation import discrete_df
+from src._actuarial_implementation import discrete_df, continuous_df
 from src.curve import Curve
-
+np.seterr(divide='ignore', invalid='ignore')
 plt.style.use("bmh")
 
 
 class NelsonSiegel:
-    def __init__(self, beta0: float, beta1: float, beta2: float, tau: float):
+    def __init__(self, beta0: float, beta1: float, beta2: float, tau: float) -> None:
         self.beta0: float = self._is_positive_attr(beta0)
         self.beta1: float = beta1
         self.beta2: float = beta2
@@ -78,11 +78,13 @@ class NelsonSiegel:
         return calibration_result
 
     def _time_decay(self, t):
-        return np.array(self.beta1 * np.exp(-np.array(t, np.float128) / self.tau))
+        return self.beta1 * (np.array(((1 - np.exp(-np.array(t, np.float128) / self.tau)) /
+                                       (np.array(t, np.float128) / self.tau))))
 
     def _hump(self, t):
-        return np.array(
-            self.beta2 * (-np.array(t, np.float128) / self.tau) * np.exp(-np.array(t, np.float128) / self.tau))
+        return self.beta2 * np.subtract(np.array(((1 - np.exp(-np.array(t, np.float128) / self.tau)) /
+                                                  (np.array(t, np.float128) / self.tau))),
+                                        np.array(np.exp(-np.array(t, np.float128) / self.tau)))
 
     def rate(self, t):
         first_coefficient = self._time_decay(t)
@@ -129,5 +131,9 @@ class NelsonSiegel:
     def df_t(self, t):
         return discrete_df(self.rate(t), t)
 
+    def cdf_t(self, t):
+        return continuous_df(self.rate(t), t)
+
     def forward_rate(self, t_1, t_2):
         return ((self.rate(t_2) * t_2) - (self.rate(t_1) * t_1)) / (t_2 - t_1)
+

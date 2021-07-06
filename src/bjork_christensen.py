@@ -10,16 +10,15 @@ plt.style.use("bmh")
 np.seterr(divide='ignore', invalid='ignore')
 
 
-class NelsonSiegelAugmented:
+class BjorkChristensen:
 
-    def __init__(self, beta0: float, beta1: float, beta2: float, beta3: float, tau: float, tau2: float) -> None:
+    def __init__(self, beta0: float, beta1: float, beta2: float, beta3: float, tau: float) -> None:
         self.beta0: float = self._is_positive_attr(beta0)
         self.beta1: float = beta1
         self.beta2: float = beta2
         self.beta3: float = beta3
         self.tau: float = self._is_positive_attr(tau)
-        self.tau2: float = self._is_positive_attr(tau2)
-        self.attr_list: list = ["beta0", "beta1", "beta2", "beta3", "tau", "tau2"]
+        self.attr_list: list = ["beta0", "beta1", "beta2", "beta3", "tau"]
 
     @staticmethod
     def _is_valid_curve(curve: Any) -> Curve:
@@ -32,19 +31,19 @@ class NelsonSiegelAugmented:
     def _is_positive_attr(attr: float) -> float:
         """Check attribute is positive"""
         if attr < 0:
-            raise AttributeError("Beta0, tau and tau2, must be positive")
+            raise AttributeError("Beta0 & tau, must be positive")
         return attr
 
     def get_attr(self, attr: str) -> float:
         return self.__getattribute__(attr)
 
     def set_attr(self, attr: str, x: float) -> None:
-        if attr in (["beta0", "tau", "tau2"]):
+        if attr in (["beta0", "tau"]):
             self.__setattr__(attr, self._is_positive_attr(x))
         self.__setattr__(attr, x)
 
     def _print_model(self) -> None:
-        print("Augmented Nelson Siegel Model")
+        print("Bjork & Christensen Model")
         print(28 * "=")
         for attr in self.attr_list:
             print(attr + " =", self.get_attr(attr))
@@ -52,7 +51,7 @@ class NelsonSiegelAugmented:
 
     @staticmethod
     def _calibration_func(x: list, curve: Curve) -> float:
-        ns = NelsonSiegelAugmented(x[0], x[1], x[2], x[3], x[4], x[5])
+        ns = BjorkChristensen(x[0], x[1], x[2], x[3], x[4])
         curve_estim = np.ones(len(curve.get_time))
         for i in range(len(curve.get_time)):
             curve_estim[i] = ns.rate(curve.get_time[i])
@@ -71,8 +70,8 @@ class NelsonSiegelAugmented:
 
     def calibrate(self, curve):
         self._is_valid_curve(curve)
-        x0 = np.array([1, 0, 0, 0, 1, 1])
-        boundaries = ((1e-6, np.inf), (-30, 30), (-30, 30), (-30, 30), (1e-6, 30), (1e-6, 30))
+        x0 = np.array([1, 0, 0, 0, 1])
+        boundaries = ((1e-6, np.inf), (-30, 30), (-30, 30), (-30, 30), (1e-6, 30))
         calibration_result = minimize(self._calibration_func, x0, method='L-BFGS-B', args=curve, bounds=boundaries)
         i = 0
         for attr in self.attr_list:
@@ -91,9 +90,8 @@ class NelsonSiegelAugmented:
                                         np.array(np.exp(-np.array(t, np.float128) / self.tau)))
 
     def _second_hump(self, t):
-        return self.beta3 * np.subtract(np.array(((1 - np.exp(-np.array(t, np.float128) / self.tau2)) /
-                                                  (np.array(t, np.float128) / self.tau2))),
-                                        np.array(np.exp(-np.array(t, np.float128) / self.tau2)))
+        return self.beta3 * (np.array(((1 - np.exp(-2*np.array(t, np.float128) / self.tau)) /
+                                                  (2 * np.array(t, np.float128) / self.tau))))
 
     def rate(self, t):
         first_coefficient = self._time_decay(t)
@@ -105,12 +103,12 @@ class NelsonSiegelAugmented:
         t = np.linspace(0.0, 50, 1000)
         b0 = np.ones(1000) * self.beta0
         fig = plt.figure(figsize=(12.5, 8))
-        fig.suptitle("Nelson Siegel Parameters")
+        fig.suptitle("Bjork Christensen Parameters")
         ax1 = fig.add_subplot(212)
         ax1.plot(t, self.rate(t))
         ax1.set_xlabel('t, years')
         ax1.set_ylabel('Yield')
-        ax1.set_title('Nelson Siegel Svensson Model')
+        ax1.set_title('Bjork Christensen Model')
         ax2 = fig.add_subplot(241)
         ax2.plot(t, b0)
         ax2.set_ylabel('Yield')
@@ -130,7 +128,7 @@ class NelsonSiegelAugmented:
         t = np.linspace(0.001, 50, 1000)
         b0 = np.ones(1000) * self.beta0
         fig = plt.figure()
-        fig.suptitle("Nelson Siegel Svensson BreakDown")
+        fig.suptitle("Bjork Christensen BreakDown")
         ax = fig.add_subplot(1, 1, 1)
         ax.set_xlabel('t, years')
         ax.set_ylabel('Yield')

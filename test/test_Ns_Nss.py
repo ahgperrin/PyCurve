@@ -20,14 +20,14 @@ class Test_ns_nss(unittest.TestCase):
         self.nss = NelsonSiegelAugmented(1, 2, 3, 4, 5, 6)
         self.ns = NelsonSiegel(1, 2, 3, 4)
 
-    def test_ns_constructor(self)->None:
+    def test_ns_constructor(self) -> None:
         self.assertEqual(self.ns.get_attr("beta0"), 1)
         self.assertEqual(self.ns.get_attr("beta1"), 2)
         self.assertEqual(self.ns.get_attr("beta2"), 3)
         self.assertEqual(self.ns.get_attr("tau"), 4)
         self.assertEqual(self.ns.get_attr("attr_list"), ["beta0", "beta1", "beta2", "tau"])
 
-    def test_ns_setter(self)->None:
+    def test_ns_setter(self) -> None:
         self.ns.set_attr("beta0", 6)
         self.ns.set_attr("beta1", 5)
         self.ns.set_attr("beta2", 4)
@@ -38,11 +38,11 @@ class Test_ns_nss(unittest.TestCase):
         self.assertEqual(self.ns.get_attr("beta2"), 4)
         self.assertEqual(self.ns.get_attr("tau"), 2)
 
-    def test_ns_attr_strike(self)->None:
+    def test_ns_attr_strike(self) -> None:
         self.assertRaises(AttributeError, lambda: self.ns.set_attr("beta0", -1))
         self.assertRaises(AttributeError, lambda: self.ns.set_attr("tau", -1))
 
-    def test_nss_constructor(self)->None:
+    def test_nss_constructor(self) -> None:
         self.assertEqual(self.nss.get_attr("beta0"), 1)
         self.assertEqual(self.nss.get_attr("beta1"), 2)
         self.assertEqual(self.nss.get_attr("beta2"), 3)
@@ -51,7 +51,7 @@ class Test_ns_nss(unittest.TestCase):
         self.assertEqual(self.nss.get_attr("tau2"), 6)
         self.assertEqual(self.nss.get_attr("attr_list"), ["beta0", "beta1", "beta2", "beta3", "tau", "tau2"])
 
-    def test_nss_setter(self)->None:
+    def test_nss_setter(self) -> None:
         self.nss.set_attr("beta0", 6)
         self.nss.set_attr("beta1", 5)
         self.nss.set_attr("beta2", 4)
@@ -65,58 +65,64 @@ class Test_ns_nss(unittest.TestCase):
         self.assertEqual(self.nss.get_attr("tau"), 2)
         self.assertEqual(self.nss.get_attr("tau2"), 1)
 
-    def test_nss_attr_strike(self)->None:
+    def test_nss_attr_strike(self) -> None:
         self.assertRaises(AttributeError, lambda: self.nss.set_attr("beta0", -1))
         self.assertRaises(AttributeError, lambda: self.nss.set_attr("tau", -1))
         self.assertRaises(AttributeError, lambda: self.nss.set_attr("tau2", -1))
 
-    def test_ns_calibration(self)->None:
+    def test_ns_calibration(self) -> None:
         self.assertRaises(ValueError, lambda: self.ns.calibrate(1))
         self.res_ns = self.ns.calibrate(self.curve_1)
-        self.assertEqual(self.res_ns.x[0], 0.44121845796127146)
-        self.assertEqual(self.res_ns.x[1], -1.0420528066723032)
-        self.assertEqual(self.res_ns.x[2], 1.6042117376081295)
-        self.assertEqual(self.res_ns.x[3], 4.757459370801262)
-        self.assertEqual(self.res_ns.fun, 0.0004361538923576626)
-        self.assertEqual(self.res_ns.nit, 19)
+        self.assertEqual(self.res_ns.x[0],0.7591072778783439)
+        self.assertEqual(self.res_ns.x[1], -1.3260856584993546)
+        self.assertEqual(self.res_ns.x[2], -2.30884199679111)
+        self.assertEqual(self.res_ns.x[3], 2.4967046326924147)
+        self.assertEqual(self.res_ns.fun, 0.01320690898431798)
+        self.assertEqual(self.res_ns.nit, 22)
 
-    def test_nss_calibration(self)->None:
+    def test_nss_calibration(self) -> None:
         self.assertRaises(ValueError, lambda: self.nss.calibrate(1))
         self.res_nss = self.nss.calibrate(self.curve_1)
-        self.assertEqual(self.res_nss.x[0], 0.4317673238443175)
-        self.assertEqual(self.res_nss.x[1], -1.043896871285076)
-        self.assertEqual(self.res_nss.x[2], 5.6796728449553795)
-        self.assertEqual(self.res_nss.x[3], -3.972010693898574)
-        self.assertEqual(self.res_nss.x[4], 4.070897553608448)
-        self.assertEqual(self.res_nss.x[5], 3.8033723280403975)
-        self.assertEqual(self.res_nss.fun, 8.494051924053917e-05)
-        self.assertEqual(self.res_nss.nit, 147)
+        self.assertEqual(self.res_nss.x[0], 0.7591047678885469)
+        self.assertEqual(self.res_nss.x[1], -1.3260829741760174)
+        self.assertEqual(self.res_nss.x[2], -1.3574664081884185)
+        self.assertEqual(self.res_nss.x[3], -0.9513767860626137)
+        self.assertEqual(self.res_nss.x[4], 2.496692288666087)
+        self.assertEqual(self.res_nss.x[5], 2.4966928037670777)
+        self.assertEqual(self.res_nss.fun, 0.013206908995289438)
+        self.assertEqual(self.res_nss.nit, 37)
 
-    def test_nss_rate(self)->None:
+    def test_nss_rate(self) -> None:
         self.nss.calibrate(self.curve_1)
-        self.assertAlmostEqual(self.nss.rate(1), -0.673195667196413, 10)
-        self.assertAlmostEqual(self.nss.rate(20), 0.32765049508711156594, 10)
-        self.assertAlmostEqual(self.nss.rate(30), 0.41648832622344749292, 10)
-        self.assertAlmostEqual(self.nss.forward_rate(30, 40), 0.4698397053600250028, 10)
+        self.assertAlmostEqual(self.nss.rate(1), -0.6892160964115264675, 10)
+        self.assertAlmostEqual(self.nss.rate(20),0.3062571184311050645, 10)
+        self.assertAlmostEqual(self.nss.rate(30),  0.45661080539385167975, 10)
+        self.assertAlmostEqual(self.nss.forward_rate(30, 40), 0.75905851040282940203, 10)
 
-    def test_ns_rate(self)->None:
+    def test_ns_rate(self) -> None:
         self.ns.calibrate(self.curve_1)
-        self.assertAlmostEqual(self.ns.rate(1), -0.6765621734520236092, 10)
-        self.assertAlmostEqual(self.ns.rate(20), 0.3249196408508820863, 10)
-        self.assertAlmostEqual(self.ns.rate(30), 0.42084917599682446888, 10)
-        self.assertAlmostEqual(self.ns.forward_rate(30, 40), 0.48935917386055295962, 10)
+        self.assertAlmostEqual(self.ns.rate(1), -0.68921534129209782287, 10)
+        self.assertAlmostEqual(self.ns.rate(20), 0.30625725996129391995, 10)
+        self.assertAlmostEqual(self.ns.rate(30), 0.45661171324789959496, 10)
+        self.assertAlmostEqual(self.ns.forward_rate(30, 40), 0.75906101770412713473, 10)
 
-    def test_nss_df(self)->None:
+    def test_nss_df(self) -> None:
         self.nss.calibrate(self.curve_1)
-        self.assertAlmostEqual(self.nss.df_t(1), 1.006777583067515285, 10)
-        self.assertAlmostEqual(self.nss.df_t(20), 0.9366711881807507148, 10)
-        self.assertAlmostEqual(self.nss.df_t(30), 0.88277314591438881626, 10)
+        self.assertAlmostEqual(self.nss.df_t(1), 1.0069399925095810551, 10)
+        self.assertAlmostEqual(self.nss.df_t(20), 0.9406747695226624711, 10)
+        self.assertAlmostEqual(self.nss.df_t(30), 0.87225675881522176205, 10)
+        self.assertAlmostEqual(self.nss.cdf_t(1), 1.0069159665647441921, 10)
+        self.assertAlmostEqual(self.nss.cdf_t(20), 0.9405867242630298321, 10)
+        self.assertAlmostEqual(self.nss.cdf_t(30), 0.87198483906456019884, 10)
 
-    def test_ns_df(self)->None:
+    def test_ns_df(self) -> None:
         self.ns.calibrate(self.curve_1)
-        self.assertAlmostEqual(self.ns.df_t(1), 1.0068117071685892162, 10)
-        self.assertAlmostEqual(self.ns.df_t(20), 0.9371812457122977514, 10)
-        self.assertAlmostEqual(self.ns.df_t(30), 0.88162381744194171017, 10)
+        self.assertAlmostEqual(self.ns.df_t(1), 1.0069399848532126206, 10)
+        self.assertAlmostEqual(self.ns.df_t(20),  0.94067474297718491294, 10)
+        self.assertAlmostEqual(self.ns.df_t(30),  0.8722565223305238475, 10)
+        self.assertAlmostEqual(self.ns.cdf_t(1), 1.0069159589613261271, 10)
+        self.assertAlmostEqual(self.ns.cdf_t(20), 0.9405866976387468649, 10)
+        self.assertAlmostEqual(self.ns.cdf_t(30), 0.8719846015741027802, 10)
 
 
 if __name__ == '__main__':

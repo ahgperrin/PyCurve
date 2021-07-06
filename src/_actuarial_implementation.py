@@ -6,7 +6,7 @@ def discrete_df(r, t):
 
 
 def continuous_df(r, t):
-    return 1 * np.exp(-r/100 * t)
+    return np.exp(-r/100 * t)
 
 
 def discrete_rate(df, t):
