@@ -2,9 +2,12 @@ from typing import Any
 
 import numpy as np
 from scipy.optimize import minimize
+import matplotlib.pyplot as plt
 
 from src._actuarial_implementation import discrete_df
 from src.curve import Curve
+
+plt.style.use("bmh")
 
 
 class NelsonSiegel:
@@ -74,11 +77,54 @@ class NelsonSiegel:
         self._print_fitting(calibration_result)
         return calibration_result
 
-    def rate(self, t):
-        first_coefficient = np.array(self.beta1 * np.exp(-np.array(t, np.float128) / self.tau))
-        second_coefficient = np.array(
+    def _time_decay(self, t):
+        return np.array(self.beta1 * np.exp(-np.array(t, np.float128) / self.tau))
+
+    def _hump(self, t):
+        return np.array(
             self.beta2 * (-np.array(t, np.float128) / self.tau) * np.exp(-np.array(t, np.float128) / self.tau))
+
+    def rate(self, t):
+        first_coefficient = self._time_decay(t)
+        second_coefficient = self._hump(t)
         return self.beta0 + first_coefficient + second_coefficient
+
+    def plot_model_params(self):
+        t = np.linspace(0, 50, 1000)
+        b0 = np.ones(1000) * self.beta0
+        fig = plt.figure(figsize=(12.5, 8))
+        fig.suptitle("Nelson Siegel Parameters")
+        ax1 = fig.add_subplot(212)
+        ax1.plot(t, self.rate(t))
+        ax1.set_xlabel('t, years')
+        ax1.set_ylabel('Yield')
+        ax1.set_title('Nelson Siegel Model')
+        ax2 = fig.add_subplot(231)
+        ax2.plot(t, b0)
+        ax2.set_ylabel('Yield')
+        ax2.set_title('Long Term Rate')
+        ax3 = fig.add_subplot(232)
+        ax3.plot(t, self._time_decay(t))
+        ax3.set_title('Time Decay Part')
+        ax4 = fig.add_subplot(233)
+        ax4.plot(t, self._hump(t))
+        ax4.set_title('Hump Part')
+        plt.show()
+
+    def plot_model(self):
+        t = np.linspace(0, 50, 1000)
+        b0 = np.ones(1000) * self.beta0
+        fig = plt.figure()
+        fig.suptitle("Nelson Siegel BreakDown")
+        ax = fig.add_subplot(1, 1, 1)
+        ax.set_xlabel('t, years')
+        ax.set_ylabel('Yield')
+        ax.plot(t, self.rate(t), label="Full Model")
+        ax.plot(t, b0, label="Long Term Rate")
+        ax.plot(t, self._hump(t), label="Hump")
+        ax.plot(t, self._time_decay(t), label="Time Decay")
+        plt.legend()
+        plt.show()
 
     def df_t(self, t):
         return discrete_df(self.rate(t), t)

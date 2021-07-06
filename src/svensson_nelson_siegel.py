@@ -3,7 +3,10 @@ from typing import Any
 from src._actuarial_implementation import discrete_df
 from src.curve import Curve
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy.optimize import minimize
+
+plt.style.use("bmh")
 
 
 class NelsonSiegelAugmented:
@@ -77,13 +80,63 @@ class NelsonSiegelAugmented:
         self._print_fitting(calibration_result)
         return calibration_result
 
-    def rate(self, t):
-        first_coefficient = np.array(self.beta1 * np.exp(-np.array(t, np.float128) / self.tau))
-        second_coefficient = np.array(
+    def _time_decay(self, t):
+        return np.array(self.beta1 * np.exp(-np.array(t, np.float128) / self.tau))
+
+    def _hump(self, t):
+        return np.array(
             self.beta2 * (-np.array(t, np.float128) / self.tau) * np.exp(-np.array(t, np.float128) / self.tau))
-        third_coefficient = np.array(
+
+    def _second_hump(self, t):
+        return np.array(
             self.beta3 * (-np.array(t, np.float128) / self.tau2) * np.exp(-np.array(t, np.float128) / self.tau2))
+
+    def rate(self, t):
+        first_coefficient = self._time_decay(t)
+        second_coefficient = self._hump(t)
+        third_coefficient = self._second_hump(t)
         return self.beta0 + first_coefficient + second_coefficient + third_coefficient
+
+    def plot_model_params(self):
+        t = np.linspace(0, 50, 1000)
+        b0 = np.ones(1000) * self.beta0
+        fig = plt.figure(figsize=(12.5, 8))
+        fig.suptitle("Nelson Siegel Parameters")
+        ax1 = fig.add_subplot(212)
+        ax1.plot(t, self.rate(t))
+        ax1.set_xlabel('t, years')
+        ax1.set_ylabel('Yield')
+        ax1.set_title('Nelson Siegel Svensson Model')
+        ax2 = fig.add_subplot(241)
+        ax2.plot(t, b0)
+        ax2.set_ylabel('Yield')
+        ax2.set_title('Long Term Rate')
+        ax3 = fig.add_subplot(242)
+        ax3.plot(t, self._time_decay(t))
+        ax3.set_title('Time Decay Part')
+        ax4 = fig.add_subplot(243)
+        ax4.plot(t, self._hump(t))
+        ax4.set_title('Hump Part')
+        ax5 = fig.add_subplot(244)
+        ax5.plot(t, self._second_hump(t))
+        ax5.set_title('Second Hump Part')
+        plt.show()
+
+    def plot_model(self):
+        t = np.linspace(0, 50, 1000)
+        b0 = np.ones(1000) * self.beta0
+        fig = plt.figure()
+        fig.suptitle("Nelson Siegel Svensson BreakDown")
+        ax = fig.add_subplot(1, 1, 1)
+        ax.set_xlabel('t, years')
+        ax.set_ylabel('Yield')
+        ax.plot(t, self.rate(t), label="Full Model")
+        ax.plot(t, b0, label="Long Term Rate")
+        ax.plot(t, self._hump(t), label="Hump")
+        ax.plot(t, self._time_decay(t), label="Time Decay")
+        ax.plot(t, self._second_hump(t), label="Second Hump")
+        plt.legend()
+        plt.show()
 
     def df_t(self, t):
         return discrete_df(self.rate(t), t)
