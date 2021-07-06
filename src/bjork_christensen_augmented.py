@@ -10,15 +10,16 @@ plt.style.use("bmh")
 np.seterr(divide='ignore', invalid='ignore')
 
 
-class BjorkChristensen:
+class BjorkChristensenAugmented:
 
-    def __init__(self, beta0: float, beta1: float, beta2: float, beta3: float, tau: float) -> None:
+    def __init__(self, beta0: float, beta1: float, beta2: float, beta3: float,beta4: float, tau: float) -> None:
         self.beta0: float = self._is_positive_attr(beta0)
         self.beta1: float = beta1
         self.beta2: float = beta2
         self.beta3: float = beta3
+        self.beta4: float = beta4
         self.tau: float = self._is_positive_attr(tau)
-        self.attr_list: list = ["beta0", "beta1", "beta2", "beta3", "tau"]
+        self.attr_list: list = ["beta0", "beta1", "beta2", "beta3", "beta4", "tau"]
 
     @staticmethod
     def _is_valid_curve(curve: Any) -> Curve:
@@ -43,7 +44,7 @@ class BjorkChristensen:
         self.__setattr__(attr, x)
 
     def _print_model(self) -> None:
-        print("Bjork & Christensen Model")
+        print("Bjork & Christensen Augmented Model")
         print(28 * "=")
         for attr in self.attr_list:
             print(attr + " =", self.get_attr(attr))
@@ -51,7 +52,7 @@ class BjorkChristensen:
 
     @staticmethod
     def _calibration_func(x: list, curve: Curve) -> float:
-        ns = BjorkChristensen(x[0], x[1], x[2], x[3], x[4])
+        ns = BjorkChristensenAugmented(x[0], x[1], x[2], x[3], x[4],x[5])
         curve_estim = np.ones(len(curve.get_time))
         for i in range(len(curve.get_time)):
             curve_estim[i] = ns.rate(curve.get_time[i])
@@ -70,8 +71,8 @@ class BjorkChristensen:
 
     def calibrate(self, curve):
         self._is_valid_curve(curve)
-        x0 = np.array([1, 0, 0, 0, 1])
-        boundaries = ((1e-6, np.inf), (-30, 30), (-30, 30), (-30, 30), (1e-6, 30))
+        x0 = np.array([1, 0, 0, 0,0, 1])
+        boundaries = ((1e-6, np.inf), (-30, 30), (-30, 30), (-30, 30), (-30, 30), (1e-6, 30))
         calibration_result = minimize(self._calibration_func, x0, method='L-BFGS-B', args=curve, bounds=boundaries)
         i = 0
         for attr in self.attr_list:
@@ -81,23 +82,27 @@ class BjorkChristensen:
         return calibration_result
 
     def _time_decay(self, t):
-        return self.beta1 * (np.array(((1 - np.exp(-np.array(t, np.float128) / self.tau)) /
-                                       (np.array(t, np.float128) / self.tau))))
+        return self.beta1 * (np.array(t, np.float128) / (2 * self.tau))
 
     def _hump(self, t):
-        return self.beta2 * np.subtract(np.array(((1 - np.exp(-np.array(t, np.float128) / self.tau)) /
+        return self.beta2 * (np.array(((1 - np.exp(-np.array(t, np.float128) / self.tau)) /
+                                       (np.array(t, np.float128) / self.tau))))
+
+    def _second_hump(self, t):
+        return self.beta3 * np.subtract(np.array(((1 - np.exp(-np.array(t, np.float128) / self.tau)) /
                                                   (np.array(t, np.float128) / self.tau))),
                                         np.array(np.exp(-np.array(t, np.float128) / self.tau)))
 
-    def _second_hump(self, t):
-        return self.beta3 * (np.array(((1 - np.exp(-2 * np.array(t, np.float128) / self.tau)) /
-                                       (2 * np.array(t, np.float128) / self.tau))))
+    def _third_hump(self, t):
+        return self.beta4 * (np.array(((1 - np.exp(-2*np.array(t, np.float128) / self.tau)) /
+                                                  (2 * np.array(t, np.float128) / self.tau))))
 
     def rate(self, t):
         first_coefficient = self._time_decay(t)
         second_coefficient = self._hump(t)
         third_coefficient = self._second_hump(t)
-        return self.beta0 + first_coefficient + second_coefficient + third_coefficient
+        fourth_coefficient = self._third_hump(t)
+        return self.beta0 + first_coefficient + second_coefficient + third_coefficient + fourth_coefficient
 
     def plot_model_params(self):
         t = np.linspace(0.0, 50, 1000)
@@ -109,19 +114,22 @@ class BjorkChristensen:
         ax1.set_xlabel('t, years')
         ax1.set_ylabel('Yield')
         ax1.set_title('Bjork Christensen Model')
-        ax2 = fig.add_subplot(241)
+        ax2 = fig.add_subplot(251)
         ax2.plot(t, b0)
         ax2.set_ylabel('Yield')
         ax2.set_title('Long Term Rate')
-        ax3 = fig.add_subplot(242)
+        ax3 = fig.add_subplot(252)
         ax3.plot(t, self._time_decay(t))
         ax3.set_title('Time Decay Part')
-        ax4 = fig.add_subplot(243)
+        ax4 = fig.add_subplot(253)
         ax4.plot(t, self._hump(t))
         ax4.set_title('Hump Part')
-        ax5 = fig.add_subplot(244)
+        ax5 = fig.add_subplot(254)
         ax5.plot(t, self._second_hump(t))
         ax5.set_title('Second Hump Part')
+        ax6 = fig.add_subplot(255)
+        ax6.plot(t, self._third_hump(t))
+        ax6.set_title('Third Hump Part')
         plt.show()
 
     def plot_model(self):
@@ -137,6 +145,7 @@ class BjorkChristensen:
         ax.plot(t, self._hump(t), label="Hump")
         ax.plot(t, self._time_decay(t), label="Time Decay")
         ax.plot(t, self._second_hump(t), label="Second Hump")
+        ax.plot(t, self._third_hump(t), label="Third Hump")
         plt.legend()
         plt.show()
 
@@ -148,3 +157,17 @@ class BjorkChristensen:
 
     def forward_rate(self, t_1, t_2):
         return ((self.rate(t_2) * t_2) - (self.rate(t_1) * t_1)) / (t_2 - t_1)
+
+curve_1 = Curve([0.25, 0.5, 0.75, 1., 2., 3., 4., 5., 6.,
+                              7., 8., 9., 10., 11., 12., 13., 14., 15.,
+                              16., 17., 18., 19., 20., 21., 22., 23., 24.,
+                              25., 26., 27., 28., 29., 30.],
+                             [-0.63171, -0.650322, -0.664493, -0.674608, -0.681294,
+                              -0.647593, -0.587828, -0.51251, -0.429238, -0.343399,
+                              -0.258716, -0.177665, -0.101804, -0.032016, 0.031297,
+                              0.088074, 0.138485, 0.182851, 0.221585, 0.25515, 0.284028,
+                              0.308697, 0.32962, 0.347231, 0.361935, 0.374099, 0.38406,
+                              0.392117, 0.398536, 0.403555, 0.407379, 0.410192, 0.412151])
+
+bjork_christensen = BjorkChristensenAugmented(1, 2, 3, 4, 2, 5)
+bjork_christensen.calibrate(curve_1)
