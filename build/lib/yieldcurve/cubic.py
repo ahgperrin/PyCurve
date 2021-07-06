@@ -1,14 +1,13 @@
-from typing import Any, Iterable, Union
+from yieldcurve.curve import Curve
+from yieldcurve._actuarial_implementation import *
+from scipy.interpolate import CubicSpline
+from typing import Any, Union, Iterable
 
-from src.curve import Curve
-from src._actuarial_implementation import *
-from scipy.interpolate import interp1d
 
-
-class LinearCurve:
-    def __init__(self, curve):
+class CubicCurve:
+    def __init__(self, curve: Curve) -> None:
         self.curve = self._is_valid_curve(curve)
-        self.func_rate: interp1d = interp1d(self.curve.get_time, self.curve.get_rate)
+        self.func_rate = CubicSpline(self.curve.get_time, self.curve.get_rate)
 
     @staticmethod
     def _is_valid_curve(attr: Any) -> Curve:

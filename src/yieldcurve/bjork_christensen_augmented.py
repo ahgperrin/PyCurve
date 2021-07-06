@@ -1,7 +1,7 @@
 from typing import Any
 
-from src._actuarial_implementation import discrete_df, continuous_df
-from src.curve import Curve
+from yieldcurve._actuarial_implementation import discrete_df, continuous_df
+from yieldcurve.curve import Curve
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize

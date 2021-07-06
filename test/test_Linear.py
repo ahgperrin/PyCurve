@@ -1,6 +1,6 @@
 import unittest
-from src.curve import Curve
-from src.linear import LinearCurve
+from yieldcurve.curve import Curve
+from yieldcurve.linear import LinearCurve
 
 
 class MyTestCase(unittest.TestCase):

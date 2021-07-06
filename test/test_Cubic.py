@@ -1,6 +1,6 @@
 import unittest
-from src.curve import Curve
-from src.cubic import CubicCurve
+from yieldcurve.curve import Curve
+from yieldcurve.cubic import CubicCurve
 
 class MyTestCase(unittest.TestCase):
     def setUp(self) -> None:
