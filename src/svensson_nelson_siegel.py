@@ -7,6 +7,7 @@ from scipy.optimize import minimize
 
 
 class NelsonSiegelAugmented:
+
     def __init__(self, beta0: float, beta1: float, beta2: float, beta3: float, tau: float, tau2: float):
         self.beta0: float = self._is_positive_attr(beta0)
         self.beta1: float = beta1
@@ -45,13 +46,14 @@ class NelsonSiegelAugmented:
             print(attr + " =", self.get_attr(attr))
         print(28 * "_")
 
-    def _calibration_func(self, x: list, curve: Curve) -> float:
+    @staticmethod
+    def _calibration_func(x: list, curve: Curve) -> float:
         ns = NelsonSiegelAugmented(x[0], x[1], x[2], x[3], x[4], x[5])
         curve_estim = np.ones(len(curve.get_time))
         for i in range(len(curve.get_time)):
             curve_estim[i] = ns.rate(curve.get_time[i])
-        sum = ((curve_estim - curve.get_rate) ** 2).sum()
-        return sum
+        sqr_error_sum = ((curve_estim - curve.get_rate) ** 2).sum()
+        return sqr_error_sum
 
     def _print_fitting(self, res):
         self._print_model()
@@ -65,7 +67,7 @@ class NelsonSiegelAugmented:
 
     def calibrate(self, curve):
         self._is_valid_curve(curve)
-        x0 = [1, 0, 0, 0, 1, 1]
+        x0 = np.array([1, 0, 0, 0, 1, 1])
         boundaries = ((1e-6, np.inf), (-30, 30), (-30, 30), (-30, 30), (1e-6, 30), (1e-6, 30))
         calibration_result = minimize(self._calibration_func, x0, method='L-BFGS-B', args=curve, bounds=boundaries)
         i = 0

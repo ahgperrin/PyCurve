@@ -16,7 +16,7 @@ class NelsonSiegel:
         self.attr_list: list = ["beta0", "beta1", "beta2", "tau"]
 
     @staticmethod
-    def _is_valid_curve(curve:Any)->Curve:
+    def _is_valid_curve(curve: Any) -> Curve:
         """Check if an attribute is an instance of Curve"""
         if not (isinstance(curve, Curve)):
             raise ValueError("Curve parameter must be an instance of Curve")
@@ -43,13 +43,14 @@ class NelsonSiegel:
             print(attr + " =", self.get_attr(attr))
         print(28 * "_")
 
-    def _calibration_func(self, x, curve):
+    @staticmethod
+    def _calibration_func(x, curve):
         ns = NelsonSiegel(x[0], x[1], x[2], x[3])
         curve_estim = np.ones(len(curve.get_time))
         for i in range(len(curve.get_time)):
             curve_estim[i] = ns.rate(curve.get_time[i])
-        sum = ((curve_estim - curve.get_rate) ** 2).sum()
-        return sum
+        sqr_error_sum = ((curve_estim - curve.get_rate) ** 2).sum()
+        return sqr_error_sum
 
     def _print_fitting(self, res):
         self._print_model()
@@ -63,7 +64,7 @@ class NelsonSiegel:
 
     def calibrate(self, curve):
         self._is_valid_curve(curve)
-        x0 = [1, 0, 0, 1]
+        x0 = np.array([1, 0, 0, 1])
         boundaries = ((1e-6, np.inf), (-30, 30), (-30, 30), (1e-6, 30))
         calibration_result = minimize(self._calibration_func, x0, method='L-BFGS-B', args=curve, bounds=boundaries)
         i = 0
