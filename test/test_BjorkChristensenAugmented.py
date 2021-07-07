@@ -1,7 +1,7 @@
 import unittest
 
 from yieldcurve.bjork_christensen_augmented import BjorkChristensenAugmented
-from yieldcurve.curve import Curve
+from yieldcurve._curve import Curve
 
 class MyTestCase(unittest.TestCase):
     def setUp(self) -> None:

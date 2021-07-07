@@ -1,5 +1,5 @@
 import unittest
-from yieldcurve.curve import Curve
+from yieldcurve._curve import Curve
 from yieldcurve.linear import LinearCurve
 
 

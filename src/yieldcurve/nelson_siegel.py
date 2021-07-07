@@ -5,7 +5,7 @@ from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
 from yieldcurve._actuarial_implementation import discrete_df, continuous_df
-from yieldcurve.curve import Curve
+from yieldcurve._curve import Curve
 np.seterr(divide='ignore', invalid='ignore')
 plt.style.use("bmh")
 

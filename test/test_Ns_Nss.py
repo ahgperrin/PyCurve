@@ -1,6 +1,6 @@
 import unittest
 
-from yieldcurve.curve import Curve
+from yieldcurve._curve import Curve
 from yieldcurve.nelson_siegel import NelsonSiegel
 from yieldcurve.svensson_nelson_siegel import NelsonSiegelAugmented
 

@@ -1,5 +1,5 @@
 import unittest
-from yieldcurve.curve import Curve
+from yieldcurve._curve import Curve
 from yieldcurve.cubic import CubicCurve
 
 class MyTestCase(unittest.TestCase):

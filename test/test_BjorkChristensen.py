@@ -1,7 +1,7 @@
 import unittest
 
 from yieldcurve.bjork_christensen import BjorkChristensen
-from yieldcurve.curve import Curve
+from yieldcurve._curve import Curve
 
 
 class test_BjorkChristensen(unittest.TestCase):

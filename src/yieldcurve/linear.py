@@ -1,6 +1,6 @@
 from typing import Any, Iterable, Union
 
-from yieldcurve.curve import Curve
+from yieldcurve._curve import Curve
 from yieldcurve._actuarial_implementation import *
 from scipy.interpolate import interp1d
 

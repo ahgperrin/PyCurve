@@ -44,4 +44,3 @@ class Curve:
         ax.fill_between(self.get_time, self.get_rate,
                         facecolor="darkgreen", alpha=0.3)
         plt.show()
-
