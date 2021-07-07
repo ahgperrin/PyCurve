@@ -22,8 +22,10 @@ src/yieldcurve.egg-info/requires.txt
 src/yieldcurve.egg-info/top_level.txt
 src/yieldcurve/__pycache__/__init__.cpython-39.pyc
 src/yieldcurve/__pycache__/_actuarial_implementation.cpython-39.pyc
+src/yieldcurve/__pycache__/_curve.cpython-39.pyc
 src/yieldcurve/__pycache__/bjork_christensen.cpython-39.pyc
 src/yieldcurve/__pycache__/cubic.cpython-39.pyc
+src/yieldcurve/__pycache__/vasicek.cpython-39.pyc
 test/test_BjorkChristensen.py
 test/test_BjorkChristensenAugmented.py
 test/test_Cubic.py
