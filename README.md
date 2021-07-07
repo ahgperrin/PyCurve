@@ -1,4 +1,4 @@
-# yieldcurve  Python Package
+# PyCurve  Python Package
 
 
 ### Object oriented with a main Class Curve wich allows user to gather a yield curve with two arrays, maturity and yield.
