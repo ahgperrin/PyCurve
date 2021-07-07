@@ -1,7 +1,8 @@
 import unittest
 
-from yieldcurve.bjork_christensen_augmented import BjorkChristensenAugmented
-from yieldcurve._curve import Curve
+from src.yieldcurve.bjork_christensen_augmented import BjorkChristensenAugmented
+from src.yieldcurve.curve import Curve
+
 
 class MyTestCase(unittest.TestCase):
     def setUp(self) -> None:
@@ -51,7 +52,7 @@ class MyTestCase(unittest.TestCase):
         self.res_bjork_christensen = self.bjork_christensen.calibrate(self.curve_1)
         self.assertEqual(self.res_bjork_christensen.x[0], 1.6086026450303779)
         self.assertEqual(self.res_bjork_christensen.x[1], -0.13920910952860865)
-        self.assertEqual(self.res_bjork_christensen.x[2],  -1.9649335181673264)
+        self.assertEqual(self.res_bjork_christensen.x[2], -1.9649335181673264)
         self.assertEqual(self.res_bjork_christensen.x[3], -3.095914509002693)
         self.assertEqual(self.res_bjork_christensen.x[4], -0.24710283790219)
         self.assertEqual(self.res_bjork_christensen.x[5], 3.3869504759346336)
@@ -63,7 +64,7 @@ class MyTestCase(unittest.TestCase):
         self.assertAlmostEqual(self.bjork_christensen.rate(1), -0.67627832663938393213, 10)
         self.assertAlmostEqual(self.bjork_christensen.rate(20), 0.33039622991859094614, 10)
         self.assertAlmostEqual(self.bjork_christensen.rate(30), 0.40729027000210230784, 10)
-        self.assertAlmostEqual(self.bjork_christensen.forward_rate(30, 40),  0.16858548353284021696, 10)
+        self.assertAlmostEqual(self.bjork_christensen.forward_rate(30, 40), 0.16858548353284021696, 10)
 
     def test_nss_df(self) -> None:
         self.bjork_christensen.calibrate(self.curve_1)
@@ -73,7 +74,6 @@ class MyTestCase(unittest.TestCase):
         self.assertAlmostEqual(self.bjork_christensen.cdf_t(1), 1.0067857025220037777, 10)
         self.assertAlmostEqual(self.bjork_christensen.cdf_t(20), 0.9360566826197276989, 10)
         self.assertAlmostEqual(self.bjork_christensen.cdf_t(30), 0.8849827895489620966, 10)
-
 
 
 if __name__ == '__main__':

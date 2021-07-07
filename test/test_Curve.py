@@ -1,5 +1,5 @@
 import unittest
-from yieldcurve._curve import Curve
+from src.yieldcurve.curve import Curve
 import numpy as np
 
 

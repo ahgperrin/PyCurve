@@ -4,8 +4,8 @@ import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
-from src.yieldcurve._actuarial_implementation import discrete_df, continuous_df
-from src.yieldcurve._curve import Curve
+from src.yieldcurve.actuarial_implementation import discrete_df, continuous_df
+from src.yieldcurve.curve import Curve
 np.seterr(divide='ignore', invalid='ignore')
 plt.style.use("bmh")
 

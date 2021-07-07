@@ -1,20 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from src.yieldcurve._curve import Curve
-from src.yieldcurve._simulation import Simulation
+from src.yieldcurve.curve import Curve
+from src.yieldcurve.simulation import Simulation
 
 plt.style.use("bmh")
 
 
 class Vasicek:
 
-    def __init__(self, alpha: float, beta: float, sigma: float, rt: float, time: float, steps: int) -> None:
+    def __init__(self, alpha: float, beta: float, sigma: float, rt: float, time: float, delta_time: int) -> None:
         self.alpha = alpha
         self.beta = beta
         self.sigma = sigma
         self.rt = rt
-        self.dt = time / steps
-        self.steps = steps
+        self.dt = delta_time
+        self.steps = time / delta_time
 
     def _sigma_part(self, n: int) -> float:
         return self.sigma * np.sqrt(self.dt) * np.random.normal(size=n)

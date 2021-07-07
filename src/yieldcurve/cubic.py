@@ -1,5 +1,5 @@
-from yieldcurve._curve import Curve
-from yieldcurve._actuarial_implementation import *
+from src.yieldcurve.curve import Curve
+from src.yieldcurve.actuarial_implementation import *
 from scipy.interpolate import CubicSpline
 from typing import Any, Union, Iterable
 
