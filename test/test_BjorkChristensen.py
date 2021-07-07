@@ -46,7 +46,7 @@ class test_BjorkChristensen(unittest.TestCase):
     def test_bjork_christensen_calibration(self) -> None:
         self.assertRaises(ValueError, lambda: self.bjork_christensen.calibrate(1))
         self.res_bjork_christensen = self.bjork_christensen.calibrate(self.curve_1)
-        self.assertEqual(self.res_bjork_christensen.x[0],0.7369399596877038)
+        self.assertEqual(self.res_bjork_christensen.x[0], 0.7369399596877038)
         self.assertEqual(self.res_bjork_christensen.x[1], 1.9078093835585876)
         self.assertEqual(self.res_bjork_christensen.x[2], -4.562756044537274)
         self.assertEqual(self.res_bjork_christensen.x[3], -3.289595090529932)
@@ -57,18 +57,19 @@ class test_BjorkChristensen(unittest.TestCase):
     def test_bjork_christensen_rate(self) -> None:
         self.bjork_christensen.calibrate(self.curve_1)
         self.assertAlmostEqual(self.bjork_christensen.rate(1), -0.66440554812542545636, 10)
-        self.assertAlmostEqual(self.bjork_christensen.rate(20),0.30833914873492785196, 10)
-        self.assertAlmostEqual(self.bjork_christensen.rate(30),  0.45106526499142424443, 10)
+        self.assertAlmostEqual(self.bjork_christensen.rate(20), 0.30833914873492785196, 10)
+        self.assertAlmostEqual(self.bjork_christensen.rate(30), 0.45106526499142424443, 10)
         self.assertAlmostEqual(self.bjork_christensen.forward_rate(30, 40), 0.7369358200827454895, 10)
 
     def test_nss_df(self) -> None:
         self.bjork_christensen.calibrate(self.curve_1)
-        self.assertAlmostEqual(self.bjork_christensen.df_t(1),  1.0066884942078572922, 10)
+        self.assertAlmostEqual(self.bjork_christensen.df_t(1), 1.0066884942078572922, 10)
         self.assertAlmostEqual(self.bjork_christensen.df_t(20), 0.94028434789836358866, 10)
         self.assertAlmostEqual(self.bjork_christensen.df_t(30), 0.8737025401530253824, 10)
         self.assertAlmostEqual(self.bjork_christensen.cdf_t(1), 1.006666176181122405, 10)
         self.assertAlmostEqual(self.bjork_christensen.cdf_t(20), 0.94019513978510517953, 10)
         self.assertAlmostEqual(self.bjork_christensen.cdf_t(30), 0.87343673460809446416, 10)
+
 
 if __name__ == '__main__':
     unittest.main()

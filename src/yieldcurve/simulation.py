@@ -3,7 +3,7 @@ from src.yieldcurve.curve import Curve
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.style.use('tableau-colorblind10')
+plt.style.use('seaborn-dark')
 
 
 class Simulation:
@@ -45,10 +45,11 @@ class Simulation:
             discount_factor[:, sim] = np.exp(-rieman_sum[:, sim])
         return discount_factor
 
-    def plot_discount_curve(self, average: bool = False):
+    def plot_discount_curve(self, average: bool = False) ->None:
         discount_factor: np.ndarray = self.discount_factor()
         t: np.ndarray = np.full(self.get_steps, self.get_dt).cumsum()
         fig, ax = plt.subplots(1)
+        fig.canvas.set_window_title('Discount Factor')
         fig.suptitle("Discount Factor")
         ax.set_xlabel('Time, t')
         ax.set_ylabel('Simulated Discount Factor')
@@ -61,16 +62,18 @@ class Simulation:
         t: np.ndarray = np.full(self.get_steps, self.get_dt).cumsum()
         fig, ax = plt.subplots(1)
         fig.suptitle("Simulated Paths")
+        fig.canvas.set_window_title('Simulated Paths')
         ax.set_xlabel('Time, t')
         ax.set_ylabel('Simulated Yield')
         ax.plot(t, self.get_sim,lw=0.5)
         plt.show()
 
-    def plot_yield_curve(self):
+    def plot_yield_curve(self) -> None:
         t: np.ndarray = np.full(self.get_steps, self.get_dt).cumsum()
         curve : Curve = self.yield_curve()
         fig, ax = plt.subplots(1)
         fig.suptitle("Simulated Yield Curve")
+        fig.canvas.set_window_title('Simulated Yield Curve')
         ax.set_xlabel('Time, t')
         ax.set_ylabel('Simulated Yield')
         ax.plot(t, self.get_sim, lw=0.5)
@@ -78,7 +81,7 @@ class Simulation:
         plt.legend()
         plt.show()
 
-    def plot_model(self):
+    def plot_model(self) -> None:
         t: np.ndarray = np.full(self.get_steps, self.get_dt).cumsum()
         curve: Curve = self.yield_curve()
         fig = plt.figure(figsize=(12.5, 8))

@@ -1,12 +1,12 @@
-from typing import Any
+from typing import Any, Union
 
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.optimize as sco
 from src.yieldcurve.actuarial_implementation import discrete_df, continuous_df
 from src.yieldcurve.curve import Curve
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.optimize import minimize
 
-plt.style.use("bmh")
+plt.style.use("seaborn-dark")
 np.seterr(divide='ignore', invalid='ignore')
 
 
@@ -58,7 +58,7 @@ class BjorkChristensen:
         sqr_error_sum = ((curve_estim - curve.get_rate) ** 2).sum()
         return sqr_error_sum
 
-    def _print_fitting(self, res):
+    def _print_fitting(self, res) -> None:
         self._print_model()
         print(28 * "=")
         print("Calibration Results")
@@ -68,11 +68,11 @@ class BjorkChristensen:
         print("Number of Iterations", res.nit)
         print(28 * "_")
 
-    def calibrate(self, curve):
+    def calibrate(self, curve) -> sco.OptimizeResult:
         self._is_valid_curve(curve)
         x0 = np.array([1, 0, 0, 0, 1])
         boundaries = ((1e-6, np.inf), (-30, 30), (-30, 30), (-30, 30), (1e-6, 30))
-        calibration_result = minimize(self._calibration_func, x0, method='L-BFGS-B', args=curve, bounds=boundaries)
+        calibration_result = sco.minimize(self._calibration_func, x0, method='L-BFGS-B', args=curve, bounds=boundaries)
         i = 0
         for attr in self.attr_list:
             self.set_attr(attr, calibration_result.x[i])
@@ -80,30 +80,31 @@ class BjorkChristensen:
         self._print_fitting(calibration_result)
         return calibration_result
 
-    def _time_decay(self, t):
+    def _time_decay(self, t) -> Union[np.ndarray, float]:
         return self.beta1 * (np.array(((1 - np.exp(-np.array(t, np.float128) / self.tau)) /
                                        (np.array(t, np.float128) / self.tau))))
 
-    def _hump(self, t):
+    def _hump(self, t) -> Union[np.ndarray, float]:
         return self.beta2 * np.subtract(np.array(((1 - np.exp(-np.array(t, np.float128) / self.tau)) /
                                                   (np.array(t, np.float128) / self.tau))),
                                         np.array(np.exp(-np.array(t, np.float128) / self.tau)))
 
-    def _second_hump(self, t):
+    def _second_hump(self, t) -> Union[np.ndarray, float]:
         return self.beta3 * (np.array(((1 - np.exp(-2 * np.array(t, np.float128) / self.tau)) /
                                        (2 * np.array(t, np.float128) / self.tau))))
 
-    def rate(self, t):
+    def rate(self, t) -> Union[np.ndarray, float]:
         first_coefficient = self._time_decay(t)
         second_coefficient = self._hump(t)
         third_coefficient = self._second_hump(t)
         return self.beta0 + first_coefficient + second_coefficient + third_coefficient
 
-    def plot_model_params(self):
+    def plot_model_params(self) -> None:
         t = np.linspace(0.0, 50, 1000)
         b0 = np.ones(1000) * self.beta0
         fig = plt.figure(figsize=(12.5, 8))
         fig.suptitle("Bjork Christensen Parameters")
+        fig.canvas.set_window_title('Bjork Christensen Parameters')
         ax1 = fig.add_subplot(212)
         ax1.plot(t, self.rate(t))
         ax1.set_xlabel('t, years')
@@ -124,11 +125,12 @@ class BjorkChristensen:
         ax5.set_title('Second Hump Part')
         plt.show()
 
-    def plot_model(self):
+    def plot_model(self) -> None:
         t = np.linspace(0.001, 50, 1000)
         b0 = np.ones(1000) * self.beta0
         fig = plt.figure()
-        fig.suptitle("Bjork Christensen BreakDown")
+        fig.suptitle("Bjork Christensen Components")
+        fig.canvas.set_window_title('Bjork Christensen Components')
         ax = fig.add_subplot(1, 1, 1)
         ax.set_xlabel('t, years')
         ax.set_ylabel('Yield')
@@ -140,11 +142,11 @@ class BjorkChristensen:
         plt.legend()
         plt.show()
 
-    def df_t(self, t):
+    def df_t(self, t) -> Union[np.ndarray, float]:
         return discrete_df(self.rate(t), t)
 
-    def cdf_t(self, t):
+    def cdf_t(self, t) -> Union[np.ndarray, float]:
         return continuous_df(self.rate(t), t)
 
-    def forward_rate(self, t_1, t_2):
+    def forward_rate(self, t_1, t_2) -> Union[np.ndarray, float]:
         return ((self.rate(t_2) * t_2) - (self.rate(t_1) * t_1)) / (t_2 - t_1)

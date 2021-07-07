@@ -36,6 +36,7 @@ class Curve:
     def plot_curve(self) -> None:
         fig, ax = plt.subplots(1)
         fig.suptitle("Yield Curve Term Structure")
+        fig.canvas.set_window_title('Yield Curve Term Structure')
         ax.set_xlabel('Time, t')
         ax.set_ylabel('Simulated Asset Price')
         ax.plot(self.get_time, self.get_rate, label="Yield Curve", lw=0.8, color="navy")

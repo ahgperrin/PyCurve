@@ -73,7 +73,7 @@ class Test_ns_nss(unittest.TestCase):
     def test_ns_calibration(self) -> None:
         self.assertRaises(ValueError, lambda: self.ns.calibrate(1))
         self.res_ns = self.ns.calibrate(self.curve_1)
-        self.assertEqual(self.res_ns.x[0],0.7591072778783439)
+        self.assertEqual(self.res_ns.x[0], 0.7591072778783439)
         self.assertEqual(self.res_ns.x[1], -1.3260856584993546)
         self.assertEqual(self.res_ns.x[2], -2.30884199679111)
         self.assertEqual(self.res_ns.x[3], 2.4967046326924147)
@@ -95,8 +95,8 @@ class Test_ns_nss(unittest.TestCase):
     def test_nss_rate(self) -> None:
         self.nss.calibrate(self.curve_1)
         self.assertAlmostEqual(self.nss.rate(1), -0.6892160964115264675, 10)
-        self.assertAlmostEqual(self.nss.rate(20),0.3062571184311050645, 10)
-        self.assertAlmostEqual(self.nss.rate(30),  0.45661080539385167975, 10)
+        self.assertAlmostEqual(self.nss.rate(20), 0.3062571184311050645, 10)
+        self.assertAlmostEqual(self.nss.rate(30), 0.45661080539385167975, 10)
         self.assertAlmostEqual(self.nss.forward_rate(30, 40), 0.75905851040282940203, 10)
 
     def test_ns_rate(self) -> None:
@@ -118,8 +118,8 @@ class Test_ns_nss(unittest.TestCase):
     def test_ns_df(self) -> None:
         self.ns.calibrate(self.curve_1)
         self.assertAlmostEqual(self.ns.df_t(1), 1.0069399848532126206, 10)
-        self.assertAlmostEqual(self.ns.df_t(20),  0.94067474297718491294, 10)
-        self.assertAlmostEqual(self.ns.df_t(30),  0.8722565223305238475, 10)
+        self.assertAlmostEqual(self.ns.df_t(20), 0.94067474297718491294, 10)
+        self.assertAlmostEqual(self.ns.df_t(30), 0.8722565223305238475, 10)
         self.assertAlmostEqual(self.ns.cdf_t(1), 1.0069159589613261271, 10)
         self.assertAlmostEqual(self.ns.cdf_t(20), 0.9405866976387468649, 10)
         self.assertAlmostEqual(self.ns.cdf_t(30), 0.8719846015741027802, 10)
