@@ -1,7 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from src.yieldcurve.curve import Curve
 
-plt.style.use("seaborn-dark")
+plt.style.use("bmh")
 
 
 class Vasicek:
@@ -12,47 +13,50 @@ class Vasicek:
         self.sigma = sigma
         self.rt = rt
         self.dt = time / steps
-        self._steps = steps
+        self.steps = steps
 
-    def _sigma_part(self) -> float:
-        """Generate a unique sigma dWt value"""
-        return self.sigma * np.sqrt(self.dt) * np.random.normal()
+    def _sigma_part(self, n: int) -> float:
+        return self.sigma * np.sqrt(self.dt) * np.random.normal(size=n)
 
-    def _mu_dt(self, rt) -> float:
-        """Generate a unique  mean reverting vasicek value"""
+    def _mu_dt(self, rt: np.ndarray) -> float:
         return self.alpha * (self.beta - rt) * self.dt
 
     def simulate_paths(self, n: int) -> np.array:
-        """Simulate Vasicek paths"""
-        simulation = np.zeros((self._steps, n))
-        simulation[0] = self.rt
-        for j in range(0, n, 1):
-            for i in range(1, self._steps, 1):
-                simulation[i, j] = simulation[i - 1, j] + self._mu_dt(simulation[i - 1, j]) + self._sigma_part()
+        simulation = np.zeros(shape=(self.steps, n))
+        simulation[0, :] = -0.004
+        for i in range(1, self.steps, 1):
+            dr = self.alpha * (self.beta - simulation[i - 1, :]) * self.dt + self._sigma_part(n)
+            simulation[i, :] = simulation[i - 1, :] + dr
         return simulation
 
-    def yield_curve(self, simul: np.array) -> np.array:
-        """Given a simulation return an array of rate"""
-        curve = np.zeros(self._steps)
-        curve[0] = self.rt
-        for i in range(1, self._steps):
-            curve[i] = np.mean(simul[i])
-        return curve
+    def yield_curve(self, simulation: np.ndarray) -> np.array:
+        yield_curve = np.zeros(shape=self.steps)
+        discount_factor = self.discount_factor(simulation)
+        t = np.zeros(shape=self.steps)
+        for df in range(1, test.steps):
+            yield_curve[df] = np.mean(discount_factor[df]) ** (-1 / (self.dt * df)) - 1
+            t[df] = df
+        yield_curve[0] = np.nan
+        return yield_curve
 
-    def discount_factor(self, simul: np.array) -> np.array:
-        """Given a simulation return an array of discount factor"""
-        discount = self.yield_curve(simul)
-        for i in range(self._steps):
-            discount[i] = np.exp(-discount[i] * i * self.dt)
-        return discount
+    @staticmethod
+    def discount_factor(simulation: np.ndarray) -> np.array:
+        rieman_sum = np.zeros(shape=simulation.shape)
+        discount_factor = np.zeros(shape=simulation.shape)
+        for sim in range(simulation.shape[1]):
+            rieman_sum[:, sim] = np.cumsum(simulation[:, sim]) * test.dt
+            discount_factor[:, sim] = np.exp(-rieman_sum[:, sim])
+        return discount_factor
 
-    def plot_paths(self, simul: np.array) -> None:
-        """Create a vizualisation of the Vasicek Stochastic Process"""
+    def plot_paths(self, simulation: np.array) -> None:
         fig, ax = plt.subplots(1)
         fig.suptitle(
             "Vasicek Simulated Paths \n(Alpha: " + str(self.alpha) + " /Beta: " + str(self.beta) + " /Sigma: " + str(
                 self.sigma) + ")")
         ax.set_xlabel('Time, t')
         ax.set_ylabel('Simulated Asset Price')
-        ax.plot(simul)
+        ax.plot(simulation)
         plt.show()
+
+
+test = Vasicek(1, 0.04, 0.006, -0.004, 1, 365)

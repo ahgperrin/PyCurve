@@ -44,3 +44,26 @@ class Curve:
         ax.fill_between(self.get_time, self.get_rate,
                         facecolor="darkgreen", alpha=0.3)
         plt.show()
+
+
+class Simulation:
+    def __init__(self, simulated_paths: np.ndarray, dt: float) -> None:
+        self._sim = self._is_valid_attr(simulated_paths)
+        self.dt = dt
+
+    @property
+    def get_sim(self) -> np.ndarray:
+        return self.__getattribute__("_sim")
+
+    @property
+    def get_nb_sim(self) -> (np.ndarray, list):
+        return self.__getattribute__("_sim").shape[1]
+
+    @property
+    def get_nb_sim(self) -> (np.ndarray, list):
+        return self.__getattribute__("_sim").shape[1]
+
+    @staticmethod
+    def _is_valid_attr(attr: Any) -> np.ndarray:
+        assert isinstance(attr, np.ndarray), "Class Constructor takes only numpy arrays or list as arguments"
+        return attr
