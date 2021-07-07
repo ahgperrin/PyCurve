@@ -1,7 +1,7 @@
 import unittest
 
-from src.PyCurve.vasicek import Vasicek
-from src.PyCurve.linear import LinearCurve
+from PyCurve.vasicek import Vasicek
+from PyCurve.linear import LinearCurve
 
 
 class MyTestCase(unittest.TestCase):

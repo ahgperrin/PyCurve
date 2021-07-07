@@ -1,7 +1,7 @@
 import unittest
 
 import numpy as np
-from src.PyCurve.simulation import Simulation
+from PyCurve.simulation import Simulation
 
 
 class MyTestCase(unittest.TestCase):

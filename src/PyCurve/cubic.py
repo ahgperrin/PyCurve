@@ -1,5 +1,5 @@
-from src.PyCurve.curve import Curve
-from src.PyCurve.actuarial_implementation import *
+from PyCurve.curve import Curve
+from PyCurve.actuarial_implementation import *
 from scipy.interpolate import CubicSpline
 from typing import Any, Union, Iterable
 

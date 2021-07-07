@@ -1,5 +1,5 @@
 import unittest
-from src.PyCurve.curve import Curve
+from PyCurve.curve import Curve
 import numpy as np
 
 

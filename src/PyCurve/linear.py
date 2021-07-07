@@ -1,7 +1,7 @@
 from typing import Any, Iterable, Union
 
-from src.PyCurve.curve import Curve
-from src.PyCurve.actuarial_implementation import *
+from PyCurve.curve import Curve
+from PyCurve.actuarial_implementation import *
 from scipy.interpolate import interp1d
 
 

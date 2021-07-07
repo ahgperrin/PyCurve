@@ -1,5 +1,5 @@
 from typing import Any
-from src.PyCurve.curve import Curve
+from PyCurve.curve import Curve
 import numpy as np
 import matplotlib.pyplot as plt
 

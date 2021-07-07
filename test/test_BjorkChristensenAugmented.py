@@ -1,7 +1,7 @@
 import unittest
 
-from src.PyCurve.bjork_christensen_augmented import BjorkChristensenAugmented
-from src.PyCurve.curve import Curve
+from PyCurve.bjork_christensen_augmented import BjorkChristensenAugmented
+from PyCurve.curve import Curve
 
 
 class MyTestCase(unittest.TestCase):

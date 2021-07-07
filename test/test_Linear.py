@@ -1,6 +1,6 @@
 import unittest
-from src.PyCurve.curve import Curve
-from src.PyCurve.linear import LinearCurve
+from PyCurve.curve import Curve
+from PyCurve.linear import LinearCurve
 
 
 class MyTestCase(unittest.TestCase):

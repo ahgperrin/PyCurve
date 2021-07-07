@@ -1,7 +1,9 @@
-import numpy as np
+from typing import Union
+
 import matplotlib.pyplot as plt
-from src.PyCurve.curve import Curve
-from src.PyCurve.simulation import Simulation
+import numpy as np
+
+from PyCurve.simulation import Simulation
 
 plt.style.use("bmh")
 
@@ -16,7 +18,7 @@ class Vasicek:
         self._dt = delta_time
         self._steps = int(time / delta_time)
 
-    def get_attr(self, attr: str) -> float:
+    def get_attr(self, attr: str) -> Union[float, int]:
         return self.__getattribute__(attr)
 
     def _sigma_part(self, n: int) -> float:
@@ -31,4 +33,4 @@ class Vasicek:
         for i in range(1, self.get_attr("_steps"), 1):
             dr = self._mu_dt(simulation[i - 1, :]) + self._sigma_part(n)
             simulation[i, :] = simulation[i - 1, :] + dr
-        return Simulation(simulation,self.get_attr("_dt"))
+        return Simulation(simulation, self.get_attr("_dt"))

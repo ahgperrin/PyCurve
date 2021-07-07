@@ -3,8 +3,8 @@ from typing import Any, Union
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize as sco
-from src.PyCurve.actuarial_implementation import discrete_df, continuous_df
-from src.PyCurve.curve import Curve
+from PyCurve.actuarial_implementation import discrete_df, continuous_df
+from PyCurve.curve import Curve
 
 np.seterr(divide='ignore', invalid='ignore')
 plt.style.use("seaborn-dark")
