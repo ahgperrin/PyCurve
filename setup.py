@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name='yieldcurve',
+    name='PyCurve',
     version='0.0.1',
     author="Antoine Perrin",
     author_email="antoineperrin.pro1@gmail.com",
@@ -27,5 +27,5 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=["matplotlib", "pandas", "numpy", "scipy", "typing"],
-    url="https://github.com/ahgperrin/yieldcurve"
+    url="https://github.com/ahgperrin/PyCurve"
 )

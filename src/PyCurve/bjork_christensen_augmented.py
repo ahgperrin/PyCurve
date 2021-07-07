@@ -3,8 +3,8 @@ from typing import Any, Union
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize as sco
-from src.yieldcurve.actuarial_implementation import discrete_df, continuous_df
-from src.yieldcurve.curve import Curve
+from src.PyCurve.actuarial_implementation import discrete_df, continuous_df
+from src.PyCurve.curve import Curve
 
 plt.style.use("seaborn-darkgrid")
 np.seterr(divide='ignore', invalid='ignore')

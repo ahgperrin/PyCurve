@@ -1,5 +1,5 @@
 from typing import Any
-from src.yieldcurve.curve import Curve
+from src.PyCurve.curve import Curve
 import numpy as np
 import matplotlib.pyplot as plt
 

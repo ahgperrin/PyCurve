@@ -1,8 +1,8 @@
 import unittest
 
-from src.yieldcurve.curve import Curve
-from src.yieldcurve.nelson_siegel import NelsonSiegel
-from src.yieldcurve.svensson_nelson_siegel import NelsonSiegelAugmented
+from src.PyCurve.curve import Curve
+from src.PyCurve.nelson_siegel import NelsonSiegel
+from src.PyCurve.svensson_nelson_siegel import NelsonSiegelAugmented
 
 
 class Test_ns_nss(unittest.TestCase):

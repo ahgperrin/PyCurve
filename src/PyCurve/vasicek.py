@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from src.yieldcurve.curve import Curve
-from src.yieldcurve.simulation import Simulation
+from src.PyCurve.curve import Curve
+from src.PyCurve.simulation import Simulation
 
 plt.style.use("bmh")
 

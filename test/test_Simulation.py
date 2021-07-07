@@ -1,7 +1,7 @@
 import unittest
 
 import numpy as np
-from src.yieldcurve.simulation import Simulation
+from src.PyCurve.simulation import Simulation
 
 
 class MyTestCase(unittest.TestCase):

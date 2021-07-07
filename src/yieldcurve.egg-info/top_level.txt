@@ -1,9 +1,0 @@
-bjork_christensen
-bjork_christensen_augmented
-cubic
-curve
-linear
-nelson_siegel
-svensson_nelson_siegel
-vasicek
-yieldcurve
