@@ -99,7 +99,7 @@ print(curve.get_time)
  30.  ]
 
 ```
-![Screenshot](example_Screenshot/curve.png)
+![Screenshot](example_screenshot/curve.png)
 
 ## Simulation Object 
 
@@ -129,9 +129,9 @@ vasicek_model = Vasicek(0.02, 0.04, 0.001, -0.004, 50, 30 / 365)
 simulation = v.simulate_paths(20) #Return a Simulation and then we can apply Simulation Methods
 simulation.plot_yield_curve()
 ```
-![Screenshot](example_Screenshot/simulated_curve.png)
+![Screenshot](example_screenshot/simulated_curve.png)
 
 ```sh
 simulation.plot_model()
 ```
-![Screenshot](example_Screenshot/simulation_example.png)
+![Screenshot](example_screenshot/simulation_example.png)
