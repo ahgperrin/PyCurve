@@ -91,6 +91,19 @@ class NelsonSiegel:
         second_coefficient = self._hump(t)
         return self.beta0 + first_coefficient + second_coefficient
 
+    def plot_calibrated(self, curve: Curve) -> None:
+        fig = plt.figure(figsize=(12.5, 8))
+        fig.suptitle("Nelson Siegel Curve")
+        fig.canvas.set_window_title('Nelson Siegel Curve')
+        t = curve.get_time
+        ax1 = fig.add_subplot(111)
+        ax1.set_xlabel('t, years')
+        ax1.set_ylabel('Yield')
+        ax1.plot(t, self.rate(t), c="seagreen", label="Calibrated")
+        ax1.plot(t, curve.get_rate, c="chocolate", label="Observed")
+        plt.legend()
+        plt.show()
+
     def plot_model_params(self) -> None:
         t = np.linspace(0, 50, 1000)
         b0 = np.ones(1000) * self.beta0
