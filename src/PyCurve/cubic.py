@@ -1,13 +1,13 @@
 from PyCurve.curve import Curve
 from PyCurve.actuarial_implementation import *
-from scipy.interpolate import CubicSpline
+from scipy.interpolate import CubicSpline, PPoly
 from typing import Any, Union, Iterable
 
 
 class CubicCurve:
     def __init__(self, curve: Curve) -> None:
-        self.curve = self._is_valid_curve(curve)
-        self.func_rate = CubicSpline(self.curve.get_time, self.curve.get_rate)
+        self._curve = self._is_valid_curve(curve)
+        self._func_rate: PPoly = CubicSpline(self._curve.get_time, self._curve.get_rate)
 
     @staticmethod
     def _is_valid_curve(attr: Any) -> Curve:
@@ -17,7 +17,7 @@ class CubicCurve:
 
     def d_rate(self, t: Union[np.ndarray, Iterable, int, float]) -> Union[np.ndarray, Iterable, int, float]:
         """Given a maturity return a rate"""
-        return self.func_rate(t)
+        return self._func_rate(t)
 
     def df_t(self, t: Union[np.ndarray, Iterable, int, float]) -> Union[np.ndarray, Iterable, int, float]:
         """Given a maturity return a discount factor"""

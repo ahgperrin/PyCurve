@@ -39,7 +39,7 @@ class NelsonSiegel:
             self.__setattr__(attr, self._is_positive_attr(x))
         self.__setattr__(attr, x)
 
-    def _print_model(self) -> None:
+    def print_model(self) -> None:
         print("Nelson Siegel Model")
         print(28 * "=")
         for attr in self.attr_list:
@@ -56,7 +56,7 @@ class NelsonSiegel:
         return sqr_error_sum
 
     def _print_fitting(self, res) -> None:
-        self._print_model()
+        self.print_model()
         print(28 * "=")
         print("Calibration Results")
         print(28 * "=")
@@ -151,3 +151,15 @@ class NelsonSiegel:
 
     def forward_rate(self, t_1, t_2) -> Union[np.ndarray, float]:
         return ((self.rate(t_2) * t_2) - (self.rate(t_1) * t_1)) / (t_2 - t_1)
+
+from PyCurve.curve import Curve
+rate = np.array([0.25, 0.5, 0.75, 1., 2.,
+        3., 4., 5., 10., 15.,
+        20.,25.,30.])
+time = np.array([-0.63171, -0.650322, -0.664493, -0.674608, -0.681294,
+        -0.647593, -0.587828, -0.51251, -0.101804,  0.182851,
+        0.32962,0.392117,  0.412151])
+curve = Curve(rate,time)
+ns = NelsonSiegel(0.3,0.4,12,1)
+ns.calibrate(curve)
+ns.plot_calibrated(curve)
