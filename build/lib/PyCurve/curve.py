@@ -43,5 +43,5 @@ class Curve:
         ax.set_xlabel('Time, days')
         ax.set_ylabel('Yield')
         ax.fill_between(self.get_time, self.get_rate,
-                        facecolor="lightskyblue", alpha=0.3)
+                        facecolor="darkgreen", alpha=0.3)
         plt.show()

@@ -32,7 +32,7 @@ class Simulation:
         assert isinstance(attr, np.ndarray), "Class Constructor takes only numpy arrays or list as arguments"
         return attr
 
-    def yield_curve(self) ->Curve:
+    def yield_curve(self) -> np.array:
         discount_factor: np.ndarray = self.discount_factor()
         yield_curve = np.mean(discount_factor, axis=1) ** (-1 / np.full(self.get_steps, self.get_dt).cumsum()) - 1
         return Curve(np.full(self.get_steps, self.get_dt).cumsum(),yield_curve)
