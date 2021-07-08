@@ -243,25 +243,25 @@ Forward rate between 10 and 20 years : 0.6078001168478189
 | attr_list   | Private | Coefficient list                                  |
 
 
-| Methods                       | Type    | Description & Params                                                        | Return            |
-| :--------------------------- :|:--------| :---------------------------------------------------------------------------| :-----------------|    
-| get_attr(str(attr))           | Public  | attributes getter                                                           | attribute         |
-| set_attr(attr)                | Public  | attributes setter                                                           | None              |
-| print_model()                 | Public  | print the Ns model set                                                      | None              |
-| _calibration_func(x,curve)    | Private | Private method used for calibration method                                  | float:sqr_err     |
-| _is_positive_attr(attr)       | Private | Check attributes positivity (beta0 and tau                                  | attribute         |
-| _is_valid_curve(curve)        | Private | Check if the curve given for calibration is a Curve Object                  | Curve             |
-| _print_fitting()              | Private | Print the result after the calibration                                      | None              |
-| calibrate(curve)              | Public  | Minimize _calibration_func(x,curve)                                         | sco.OptimizeResult|
-| _time_decay(t)                | Private | Compute the time decay part of the model t (float or array)                 | float,array       |
-| _hump(t)                      | Private | Compute the hump part of the model given t (float or array)                 | float,array       |
-| rate(t)                       | Public  | Get rate from the model for a given time t (float or array)                 | float,array       |
-| plot_calibrated()             | Public  | Plot Model curve against Curve                                              | None              |
-| plot_model_params()           | Public  | Plot Model parameters                                                       | None              |
-| plot_model()                  | Public  | Plot Model Components                                                       | None              |
-| df_t(t)                       | Public  | Get the discount factor from the model for a given time t (float or array)  | float,array       |
-| cdf_t(t)                      | Public  | Get the continuous df from the model for a given time t (float or array)    | float,array       |
-| forward_rate(t1,t2)           | Public  | Get the forward rate for a given time t1,t2 (float or array)                | float,array       |
+| Methods                      | Type    | Description & Params                                                        | Return            |
+| :---------------------------:|:--------| :---------------------------------------------------------------------------| :-----------------|    
+| get_attr(str(attr))          | Public  | attributes getter                                                           | attribute         |
+| set_attr(attr)               | Public  | attributes setter                                                           | None              |
+| print_model()                | Public  | print the Ns model set                                                      | None              |
+| _calibration_func(x,curve)   | Private | Private method used for calibration method                                  | float:sqr_err     |
+| _is_positive_attr(attr)      | Private | Check attributes positivity (beta0 and tau                                  | attribute         |
+| _is_valid_curve(curve)       | Private | Check if the curve given for calibration is a Curve Object                  | Curve             |
+| _print_fitting()             | Private | Print the result after the calibration                                      | None              |
+| calibrate(curve)             | Public  | Minimize _calibration_func(x,curve)                                         | sco.OptimizeResult|
+| _time_decay(t)               | Private | Compute the time decay part of the model t (float or array)                 | float,array       |
+| _hump(t)                     | Private | Compute the hump part of the model given t (float or array)                 | float,array       |
+| rate(t)                      | Public  | Get rate from the model for a given time t (float or array)                 | float,array       |
+| plot_calibrated()            | Public  | Plot Model curve against Curve                                              | None              |
+| plot_model_params()          | Public  | Plot Model parameters                                                       | None              |
+| plot_model()                 | Public  | Plot Model Components                                                       | None              |
+| df_t(t)                      | Public  | Get the discount factor from the model for a given time t (float or array)  | float,array       |
+| cdf_t(t)                     | Public  | Get the continuous df from the model for a given time t (float or array)    | float,array       |
+| forward_rate(t1,t2)          | Public  | Get the forward rate for a given time t1,t2 (float or array)                | float,array       |
 
 ### Example
 Creation of a model and calibration 
