@@ -30,17 +30,17 @@ class MyTestCase(unittest.TestCase):
         self.assertAlmostEqual(simulation.get_sim[0].mean(), -0.004, 3)
         self.assertAlmostEqual(simulation.get_sim[364].mean(), 0.02379, 3)
         simulation_2 = self.vasicek_2.simulate_paths(15)
-        self.assertAlmostEqual(simulation_2.get_sim[0].mean(), -0.004, 3)
-        self.assertAlmostEqual(simulation_2.get_sim[364].mean(), 0.04274, 3)
+        self.assertAlmostEqual(simulation_2.get_sim[0].mean(),0.015, 3)
+        self.assertAlmostEqual(simulation_2.get_sim[364].mean(), 0.04974, 3)
 
     def test_simulation_sigma(self) -> None:
         simulation = self.vasicek_sig.simulate_paths(2000)
-        self.assertAlmostEqual(simulation.get_sim[0].mean(), -0.004, 3)
-        self.assertAlmostEqual(simulation.get_sim[364].mean(), 0.042768498574009446, 3)
+        self.assertAlmostEqual(simulation.get_sim[0].mean(), 0.015, 3)
+        self.assertAlmostEqual(simulation.get_sim[364].mean(), 0.04981, 3)
         linear = LinearCurve(simulation.yield_curve())
-        self.assertAlmostEqual(float(linear.d_rate(0.2)), 0.00285333, 3)
-        self.assertAlmostEqual(float(linear.d_rate(0.5)), 0.01184294, 3)
-        self.assertAlmostEqual(float(linear.d_rate(0.9)), 0.02146702, 3)
+        self.assertAlmostEqual(float(linear.d_rate(0.2)), 0.020304669697345464, 3)
+        self.assertAlmostEqual(float(linear.d_rate(0.5)), 0.027009998308318878, 3)
+        self.assertAlmostEqual(float(linear.d_rate(0.9)), 0.03428379282808274, 3)
 
 
 if __name__ == '__main__':

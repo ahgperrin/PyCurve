@@ -7,7 +7,7 @@ from scipy.interpolate import interp1d
 
 class LinearCurve:
     def __init__(self, curve):
-        self._curve = self._is_valid__curve(curve)
+        self._curve = self._is_valid_curve(curve)
         self._func_rate: interp1d = interp1d(self._curve.get_time, self._curve.get_rate)
 
     @staticmethod
