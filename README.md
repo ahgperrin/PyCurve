@@ -129,6 +129,7 @@ a yield curve or to a discount factor curve.
 | plot_simulation()             | Public  | Plot Yield curve                                                            | None         |
 | plot_yield_curve()            | Public  | Plot Yield curve                                                            | None         |
 | plot_model()                  | Public  | Plot Yield curve                                                            | None         |
+
 ### Example
 Using Vasicek to Simulate
 ```sh
