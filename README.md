@@ -119,8 +119,8 @@ a yield curve or to a discount factor curve.
 | Methods                       | Type    | Description & Params                                                        | Return       |
 |-------------------------------|---------|-----------------------------------------------------------------------------|--------------|    
 | get_sim                       | Public  | sim getter                                                                  | _rt          |
-| get_nb_sim                    | Public  | nb_sim getter                                                               | sim.shape    |
-| get_steps                     | Public  | steps getter                                                                | sim.shape    |
+| get_nb_sim                    | Public  | nb_sim getter                                                               | sim.shape[0] |
+| get_steps                     | Public  | steps getter                                                                | sim.shape[1] |
 | get_dt                        | Public  | dt getter                                                                   | _dt          |
 | is_valid_attr(attr)           | Private | Check attributes validity                                                   | attribute    |
 | yield_curve()                 | Public  | Create a yield curve from simulated paths                                   | Curve        |
@@ -174,7 +174,7 @@ Interpolate any rate from a yield curve using linear interpolation. THis module 
 | func_rate   | Private | interp1d Object used to interpolate               |
 
 | Methods                       | Type    | Description & Params                                                        | Return       |
-| :--------------------------- :|:--------| :---------------------------------------------------------------------------| :------------|    
+|-------------------------------|---------|-----------------------------------------------------------------------------|--------------|    
 | d_rate(t)                     | Public  | rate interpolation t: float, array,int                                      | float        |
 | df_t(t)                       | Public  | discount factor interpolation  t: float, array,int                          | float        |
 | forward(t1,t2)                | Public  | forward rate between t1 and t2     t1,t2: float, array,int                  | float        |
@@ -209,7 +209,7 @@ Interpolate any rate from a yield curve using linear interpolation. THis module 
 | func_rate   | Private | PPoly Object used to interpolate               |
 
 | Methods                       | Type    | Description & Params                                                        | Return       |
-| :--------------------------- :|:--------| :---------------------------------------------------------------------------| :------------|    
+|-------------------------------|---------|-----------------------------------------------------------------------------|--------------|    
 | d_rate(t)                     | Public  | rate interpolation t: float, array,int                                      | float        |
 | df_t(t)                       | Public  | discount factor interpolation  t: float, array,int                          | float        |
 | forward(t1,t2)                | Public  | forward rate between t1 and t2     t1,t2: float, array,int                  | float        |
@@ -245,7 +245,7 @@ Forward rate between 10 and 20 years : 0.6078001168478189
 
 
 | Methods                      | Type    | Description & Params                                                        | Return            |
-| :---------------------------:|:--------| :---------------------------------------------------------------------------| :-----------------|    
+|------------------------------|---------|-----------------------------------------------------------------------------|-------------------|    
 | get_attr(str(attr))          | Public  | attributes getter                                                           | attribute         |
 | set_attr(attr)               | Public  | attributes setter                                                           | None              |
 | print_model()                | Public  | print the Ns model set                                                      | None              |
