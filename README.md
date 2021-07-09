@@ -322,8 +322,244 @@ ns.plot_model()
 ```
 ![Screenshot](example_screenshot/plot_model.png)
 ## nelson-siegel-svensson
+
+| Attributes  | Type    | Description                                       |
+| :----------:|:--------| :------------------------------------------------ |
+| beta0       | Private | Model Coefficient Beta0                           |
+| beta1       | Private | Model Coefficient Beta1                           |
+| beta2       | Private | Model Coefficient Beta2                           |
+| beta3       | Private | Model Coefficient Beta3                           |
+| tau         | Private | Model Coefficient tau                             |
+| tau2        | Private | Model Coefficient tau2                            |
+| attr_list   | Private | Coefficient list                                  |
+
+
+| Methods                      | Type    | Description & Params                                                        | Return            |
+|------------------------------|---------|-----------------------------------------------------------------------------|-------------------|    
+| get_attr(str(attr))          | Public  | attributes getter                                                           | attribute         |
+| set_attr(attr)               | Public  | attributes setter                                                           | None              |
+| print_model()                | Public  | print the Ns model set                                                      | None              |
+| _calibration_func(x,curve)   | Private | Private method used for calibration method                                  | float:sqr_err     |
+| _is_positive_attr(attr)      | Private | Check attributes positivity (beta0 and tau                                  | attribute         |
+| _is_valid_curve(curve)       | Private | Check if the curve given for calibration is a Curve Object                  | Curve             |
+| _print_fitting()             | Private | Print the result after the calibration                                      | None              |
+| calibrate(curve)             | Public  | Minimize _calibration_func(x,curve)                                         | sco.OptimizeResult|
+| _time_decay(t)               | Private | Compute the time decay part of the model t (float or array)                 | float,array       |
+| _hump(t)                     | Private | Compute the hump part of the model given t (float or array)                 | float,array       |
+| _second_hump(t)              | Private | Compute the second hump part of the model given t (float or array)          | float,array       |
+| rate(t)                      | Public  | Get rate from the model for a given time t (float or array)                 | float,array       |
+| plot_calibrated()            | Public  | Plot Model curve against Curve                                              | None              |
+| plot_model_params()          | Public  | Plot Model parameters                                                       | None              |
+| plot_model()                 | Public  | Plot Model Components                                                       | None              |
+| df_t(t)                      | Public  | Get the discount factor from the model for a given time t (float or array)  | float,array       |
+| cdf_t(t)                     | Public  | Get the continuous df from the model for a given time t (float or array)    | float,array       |
+| forward_rate(t1,t2)          | Public  | Get the forward rate for a given time t1,t2 (float or array)                | float,array       |
+
+### Example
+Creation of a model and calibration 
+
+```sh
+from PyCurve.svensson_nelson_siegel import NelsonSiegelAugmented
+nss = NelsonSiegelAugmented(0.3,0.4,12,12,1,1)
+nss.calibrate(curve)
+
+```
+```yaml
+Augmented Nelson Siegel Model
+============================
+beta0 = 0.7515069899513361
+beta1 = -1.3304984652740972
+beta2 = -1.3582175270153745
+beta3 = -0.8621237370245594
+tau = 2.5492666085730384
+tau2 = 2.5493745447283485
+____________________________
+============================
+Calibration Results
+============================
+CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL
+Mean Squared Error 0.004236730702075479
+Number of Iterations 31
+____________________________
+Out[31]:
+      fun: 0.004236730702075479
+ hess_inv: <6x6 LbfgsInvHessProduct with dtype=float64>
+      jac: array([-8.70041881e-06, -3.48375844e-06, -1.71824361e-06, -1.71911096e-06,
+        1.00535900e-06,  3.23178986e-07])
+  message: 'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+     nfev: 245
+      nit: 31
+     njev: 35
+   status: 0
+  success: True
+        x: array([ 0.75150699, -1.33049847, -1.35821753, -0.86212374,  2.54926661,
+        2.54937454])
+```
+Plotting possibilities are the same as for the Nelson-Siegel model for example
+```sh
+nss.plot_model_params()
+```
+
+![Screenshot](example_screenshot/nss_compo.png)
 ## bjork-christensen
+
+| Attributes  | Type    | Description                                       |
+| :----------:|:--------| :------------------------------------------------ |
+| beta0       | Private | Model Coefficient Beta0                           |
+| beta1       | Private | Model Coefficient Beta1                           |
+| beta2       | Private | Model Coefficient Beta2                           |
+| beta3       | Private | Model Coefficient Beta3                           |
+| tau         | Private | Model Coefficient tau                             |
+| attr_list   | Private | Coefficient list                                  |
+
+
+| Methods                      | Type    | Description & Params                                                        | Return            |
+|------------------------------|---------|-----------------------------------------------------------------------------|-------------------|    
+| get_attr(str(attr))          | Public  | attributes getter                                                           | attribute         |
+| set_attr(attr)               | Public  | attributes setter                                                           | None              |
+| print_model()                | Public  | print the Ns model set                                                      | None              |
+| _calibration_func(x,curve)   | Private | Private method used for calibration method                                  | float:sqr_err     |
+| _is_positive_attr(attr)      | Private | Check attributes positivity (beta0 and tau                                  | attribute         |
+| _is_valid_curve(curve)       | Private | Check if the curve given for calibration is a Curve Object                  | Curve             |
+| _print_fitting()             | Private | Print the result after the calibration                                      | None              |
+| calibrate(curve)             | Public  | Minimize _calibration_func(x,curve)                                         | sco.OptimizeResult|
+| _time_decay(t)               | Private | Compute the time decay part of the model t (float or array)                 | float,array       |
+| _hump(t)                     | Private | Compute the hump part of the model given t (float or array)                 | float,array       |
+| _second_hump(t)              | Private | Compute the second hump part of the model given t (float or array)          | float,array       |
+| rate(t)                      | Public  | Get rate from the model for a given time t (float or array)                 | float,array       |
+| plot_calibrated()            | Public  | Plot Model curve against Curve                                              | None              |
+| plot_model_params()          | Public  | Plot Model parameters                                                       | None              |
+| plot_model()                 | Public  | Plot Model Components                                                       | None              |
+| df_t(t)                      | Public  | Get the discount factor from the model for a given time t (float or array)  | float,array       |
+| cdf_t(t)                     | Public  | Get the continuous df from the model for a given time t (float or array)    | float,array       |
+| forward_rate(t1,t2)          | Public  | Get the forward rate for a given time t1,t2 (float or array)                | float,array       |
+
+### Example
+Creation of a model and calibration 
+
+```sh
+from PyCurve.bjork_christensen import BjorkChristensen
+bjc = BjorkChristensen(0.3,0.4,12,12,1)
+bjc.calibrate(curve)
+
+```
+```yaml
+Bjork & Christensen Model
+============================
+beta0 = 0.7241026361747042
+beta1 = 1.2630412759302045
+beta2 = -4.075775255903699
+beta3 = -2.61578890758314
+tau = 2.0454907238894267
+____________________________
+============================
+Calibration Results
+============================
+CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL
+Mean Squared Error 0.002575936865445517
+Number of Iterations 37
+____________________________
+Out[36]:
+      fun: 0.002575936865445517
+ hess_inv: <5x5 LbfgsInvHessProduct with dtype=float64>
+      jac: array([-1.34584183e-06,  7.22165387e-07, -9.63335320e-07,  1.34501786e-06,
+        4.57750160e-07])
+  message: 'CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL'
+     nfev: 252
+      nit: 37
+     njev: 42
+   status: 0
+  success: True
+        x: array([ 0.72410264,  1.26304128, -4.07577526, -2.61578891,  2.04549072])
+```
+Plotting possibilities are the same as for the Nelson-Siegel model for example
+```sh
+bjc.plot_model()
+```
+
+![Screenshot](example_screenshot/bjc_compo.png)
+
 ## bjork-christensen-augmented
+| Attributes  | Type    | Description                                       |
+| :----------:|:--------| :------------------------------------------------ |
+| beta0       | Private | Model Coefficient Beta0                           |
+| beta1       | Private | Model Coefficient Beta1                           |
+| beta2       | Private | Model Coefficient Beta2                           |
+| beta3       | Private | Model Coefficient Beta3                           |
+| beta4       | Private | Model Coefficient Beta4                           |
+| tau         | Private | Model Coefficient tau                             |
+| attr_list   | Private | Coefficient list                                  |
+
+
+| Methods                      | Type    | Description & Params                                                        | Return            |
+|------------------------------|---------|-----------------------------------------------------------------------------|-------------------|    
+| get_attr(str(attr))          | Public  | attributes getter                                                           | attribute         |
+| set_attr(attr)               | Public  | attributes setter                                                           | None              |
+| print_model()                | Public  | print the Ns model set                                                      | None              |
+| _calibration_func(x,curve)   | Private | Private method used for calibration method                                  | float:sqr_err     |
+| _is_positive_attr(attr)      | Private | Check attributes positivity (beta0 and tau                                  | attribute         |
+| _is_valid_curve(curve)       | Private | Check if the curve given for calibration is a Curve Object                  | Curve             |
+| _print_fitting()             | Private | Print the result after the calibration                                      | None              |
+| calibrate(curve)             | Public  | Minimize _calibration_func(x,curve)                                         | sco.OptimizeResult|
+| _time_decay(t)               | Private | Compute the time decay part of the model t (float or array)                 | float,array       |
+| _hump(t)                     | Private | Compute the hump part of the model given t (float or array)                 | float,array       |
+| _second_hump(t)              | Private | Compute the second hump part of the model given t (float or array)          | float,array       |
+| _third_hump(t)               | Private | Compute the third hump part of the model given t (float or array)           | float,array       |
+| rate(t)                      | Public  | Get rate from the model for a given time t (float or array)                 | float,array       |
+| plot_calibrated()            | Public  | Plot Model curve against Curve                                              | None              |
+| plot_model_params()          | Public  | Plot Model parameters                                                       | None              |
+| plot_model()                 | Public  | Plot Model Components                                                       | None              |
+| df_t(t)                      | Public  | Get the discount factor from the model for a given time t (float or array)  | float,array       |
+| cdf_t(t)                     | Public  | Get the continuous df from the model for a given time t (float or array)    | float,array       |
+| forward_rate(t1,t2)          | Public  | Get the forward rate for a given time t1,t2 (float or array)                | float,array       |
+
+### Example
+Creation of a model and calibration 
+
+```sh
+from PyCurve.bjork_christensen_augmented import BjorkChristensenAugmented
+bjc_a = BjorkChristensenAugmented(0.3,0.4,12,12,12,1)
+bjc_a.calibrate(curve)
+
+```
+```yaml
+Bjork & Christensen Augmented Model
+============================
+beta0 = 1.5954945516202643
+beta1 = -0.1362673420894012
+beta2 = -1.921347491829477
+beta3 = -3.100138400789165
+beta4 = -0.2790540854856497
+tau = 3.3831338085688625
+____________________________
+============================
+Calibration Results
+============================
+CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
+Mean Squared Error 4.6222147406189135e-05
+Number of Iterations 45
+____________________________
+Out[39]:
+      fun: 4.6222147406189135e-05
+ hess_inv: <6x6 LbfgsInvHessProduct with dtype=float64>
+      jac: array([-3.13922277e-05, -1.14224797e-04, -3.47444433e-05,  2.07803821e-05,
+        7.91378953e-06,  6.50288949e-06])
+  message: 'CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH'
+     nfev: 357
+      nit: 45
+     njev: 51
+   status: 0
+  success: True
+        x: array([ 1.59549455, -0.13626734, -1.92134749, -3.1001384 , -0.27905409,
+        3.38313381])
+
+```
+Plotting possibilities are the same as for the Nelson-Siegel model for example
+```sh
+bjc_a.plot_calibrated(curve)
+```
+
+![Screenshot](example_screenshot/bjc_a_calib.png)
 
 # Stochastic Tools
 
