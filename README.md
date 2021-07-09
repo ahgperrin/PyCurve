@@ -263,8 +263,10 @@ Forward rate between 10 and 20 years : 0.6078001168478189
 | cdf_t(t)                     | Public  | Get the continuous df from the model for a given time t (float or array)    | float,array       |
 | forward_rate(t1,t2)          | Public  | Get the forward rate for a given time t1,t2 (float or array)                | float,array       |
 
+
 ### Example
 Creation of a model and calibration 
+
 ```sh
 from PyCurve.nelson_siegel import NelsonSiegel
 ns = NelsonSiegel(0.3,0.4,12,1)
