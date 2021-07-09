@@ -119,8 +119,8 @@ a yield curve or to a discount factor curve.
 | Methods                       | Type    | Description & Params                                                        | Return       |
 | :--------------------------- :|:--------| :---------------------------------------------------------------------------| :------------|    
 | get_sim                       | Public  | sim getter                                                                  | _rt          |
-| get_nb_sim                    | Public  | nb_sim getter                                                               | sim.shape[0] |
-| get_steps                     | Public  | steps getter                                                                | sim.shape[1] |
+| get_nb_sim                    | Public  | nb_sim getter                                                               | sim.shape    |
+| get_steps                     | Public  | steps getter                                                                | sim.shape    |
 | get_dt                        | Public  | dt getter                                                                   | _dt          |
 | is_valid_attr(attr)           | Private | Check attributes validity                                                   | attribute    |
 | yield_curve()                 | Public  | Create a yield curve from simulated paths                                   | Curve        |
