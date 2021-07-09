@@ -32,10 +32,10 @@ class Simulation:
         assert isinstance(attr, np.ndarray), "Class Constructor takes only numpy arrays or list as arguments"
         return attr
 
-    def yield_curve(self) ->Curve:
+    def yield_curve(self) -> Curve:
         discount_factor: np.ndarray = self.discount_factor()
         yield_curve = np.mean(discount_factor, axis=1) ** (-1 / np.full(self.get_steps, self.get_dt).cumsum()) - 1
-        return Curve(np.full(self.get_steps, self.get_dt).cumsum(),yield_curve)
+        return Curve(np.full(self.get_steps, self.get_dt).cumsum(), yield_curve)
 
     def discount_factor(self) -> np.array:
         rieman_sum: np.ndarray = np.zeros(shape=self.get_sim.shape)
@@ -45,7 +45,7 @@ class Simulation:
             discount_factor[:, sim] = np.exp(-rieman_sum[:, sim])
         return discount_factor
 
-    def plot_discount_curve(self, average: bool = False) ->None:
+    def plot_discount_curve(self, average: bool = False) -> None:
         discount_factor: np.ndarray = self.discount_factor()
         t: np.ndarray = np.full(self.get_steps, self.get_dt).cumsum()
         fig, ax = plt.subplots(1)
@@ -54,7 +54,7 @@ class Simulation:
         ax.set_xlabel('Time, t')
         ax.set_ylabel('Simulated Discount Factor')
         if average:
-            ax.plot(t, np.mean(discount_factor, axis=1),c="navy")
+            ax.plot(t, np.mean(discount_factor, axis=1), c="navy")
         else:
             ax.plot(t, discount_factor)
 
@@ -65,19 +65,19 @@ class Simulation:
         fig.canvas.set_window_title('Simulated Paths')
         ax.set_xlabel('Time, t')
         ax.set_ylabel('Simulated Yield')
-        ax.plot(t, self.get_sim,lw=0.5)
+        ax.plot(t, self.get_sim, lw=0.5)
         plt.show()
 
     def plot_yield_curve(self) -> None:
         t: np.ndarray = np.full(self.get_steps, self.get_dt).cumsum()
-        curve : Curve = self.yield_curve()
+        curve: Curve = self.yield_curve()
         fig, ax = plt.subplots(1)
         fig.suptitle("Simulated Yield Curve")
         fig.canvas.set_window_title('Simulated Yield Curve')
         ax.set_xlabel('Time, t')
         ax.set_ylabel('Simulated Yield')
         ax.plot(t, self.get_sim, lw=0.5)
-        ax.plot(curve.get_time, curve.get_rate , label="Yield Curve", lw=2,c="darkred")
+        ax.plot(curve.get_time, curve.get_rate, label="Yield Curve", lw=2, c="darkred")
         plt.legend()
         plt.show()
 
@@ -94,9 +94,9 @@ class Simulation:
         ax2 = fig.add_subplot(221)
         ax2.set_xlabel('Time, t')
         ax2.set_ylabel('Discount factor')
-        ax2.plot(t, np.mean(self.discount_factor(), axis=1), lw=2,c="navy")
+        ax2.plot(t, np.mean(self.discount_factor(), axis=1), lw=2, c="navy")
         ax3 = fig.add_subplot(222)
         ax3.set_xlabel('Time, t')
         ax3.set_ylabel('Yield')
-        ax3.plot(curve.get_time,curve.get_rate ,lw=2,c="darkred")
+        ax3.plot(curve.get_time, curve.get_rate, lw=2, c="darkred")
         plt.show()

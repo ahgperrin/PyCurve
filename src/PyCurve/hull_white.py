@@ -46,6 +46,7 @@ class HullWhite:
         return self.get_attr("_sigma") * np.sqrt(self.get_attr("_dt")) * np.random.normal(size=n)
 
     def _interp_forward(self, t):
+        curve_interp = None
         if self._method == "linear":
             curve_interp = LinearCurve(self._f_curve)
         elif self._method == "cubic":
