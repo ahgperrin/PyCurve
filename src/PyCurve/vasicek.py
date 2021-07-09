@@ -29,7 +29,7 @@ class Vasicek:
 
     def simulate_paths(self, n: int) -> np.array:
         simulation = np.zeros(shape=(self.get_attr("_steps"), n))
-        simulation[0, :] = -0.004
+        simulation[0, :] = self._rt
         for i in range(1, self.get_attr("_steps"), 1):
             dr = self._mu_dt(simulation[i - 1, :]) + self._sigma_part(n)
             simulation[i, :] = simulation[i - 1, :] + dr
