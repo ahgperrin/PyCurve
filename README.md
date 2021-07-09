@@ -1,4 +1,4 @@
-![Screenshot](logo.png)
+![](https://github.com/ahgperrin/PyCurve/blob/master/logo.png?raw=true)
 
 -----------------
 # PyCurve - Python Yield Curve Toolkit
@@ -31,12 +31,7 @@ Below this is the features that this package tackle :
   - Hull and WHite Model Simulation
   - Create Simulation Object given a simulation numpy array in order to get from 
     simulated model d_rate Curve, Discount Factor, Forward Rate...
-  
-- More to come:
-  - CIR model will be implemented as soon as Euro Zone Rate will become positive.
-  - Model Calibration
-  - A "forward_curve" method will be implemented for each model in order to have directly 
-    the whole forward curve x days in y days
+    
     
 -----------------
 
@@ -103,7 +98,7 @@ print(curve.get_time)
  30.  ]
 
 ```
-![Screenshot](example_screenshot/curve.png)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/curve.png?raw=true)
 
 ## Simulation Object 
 
@@ -138,12 +133,12 @@ vasicek_model = Vasicek(0.02, 0.04, 0.001, -0.004, 50, 30 / 365)
 simulation = vasicek_model.simulate_paths(2000) #Return a Simulation and then we can apply Simulation Methods
 simulation.plot_yield_curve()
 ```
-![Screenshot](example_screenshot/simulated_curve.png)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/simulated_curve.png?raw=true)
 
 ```sh
 simulation.plot_model()
 ```
-![Screenshot](example_screenshot/simulation_example.png)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/simulation_example.png?raw=true)
 
 
 
@@ -308,19 +303,20 @@ Plotting and analyse
 ns.plot_calibrated()
 
 ```
-![Screenshot](example_screenshot/plot_calibrated.png)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/plot_calibrated.png?raw=true)
 
 ```sh
 ns.plot_model_params()
 
 ```
-![Screenshot](example_screenshot/model_component.png)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/model_component.png?raw=true)
 
 ```sh
 ns.plot_model()
 
 ```
-![Screenshot](example_screenshot/plot_model.png)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/plot_model.png?raw=true)
+
 ## nelson-siegel-svensson
 
 | Attributes  | Type    | Description                                       |
@@ -399,8 +395,7 @@ Plotting possibilities are the same as for the Nelson-Siegel model for example
 ```sh
 nss.plot_model_params()
 ```
-
-![Screenshot](example_screenshot/nss_compo.png)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/nss_compo.png?raw=true)
 ## bjork-christensen
 
 | Attributes  | Type    | Description                                       |
@@ -476,8 +471,7 @@ Plotting possibilities are the same as for the Nelson-Siegel model for example
 ```sh
 bjc.plot_model()
 ```
-
-![Screenshot](example_screenshot/bjc_compo.png)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/bjc_compo.png?raw=true)
 
 ## bjork-christensen-augmented
 | Attributes  | Type    | Description                                       |
@@ -558,11 +552,12 @@ Plotting possibilities are the same as for the Nelson-Siegel model for example
 ```sh
 bjc_a.plot_calibrated(curve)
 ```
-
-![Screenshot](example_screenshot/bjc_a_calib.png)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/bjc_a_calib.png?raw=true)
 
 # Stochastic Tools
 
 ## vasicek
+
+
 ## hull & white
 
