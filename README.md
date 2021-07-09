@@ -111,10 +111,10 @@ This object consists in a simple simulation encapsulation. This object is used b
 of monte carlo simulation. This Object has build in method that could perform the conversion from a simulation to 
 a yield curve or to a discount factor curve.
 
-| Attributes  | Type    | Description                                       |
-| :----------:|:--------| :------------------------------------------------ |
-| sim         | Private | Simulated paths matrix numpy.ndarray              |
-| dt          | Private | delta_time  as float or int in a numpy.ndarray    |
+| Attributes  | Type    | Description                                      |
+| :----------:|:--------| :------------------------------------------------|
+| sim         | Private | Simulated paths matrix numpy.ndarray             |
+| dt          | Private | delta_time  as float or int in a numpy.ndarray   |
 
 | Methods                       | Type    | Description & Params                                                        | Return       |
 | :--------------------------- :|:--------| :---------------------------------------------------------------------------| :------------|    
