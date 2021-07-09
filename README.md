@@ -8,7 +8,7 @@
 
 *PyCurve* is a Python package that provides to user high level 
 yield curve usefull tool. For example you can istanciate a Curve 
-and get a rate, a discount factor, even forward rate given multiple
+and get a d_rate, a discount factor, even forward d_rate given multiple
 methodology from Linear Interpolation to parametrization methods 
 as Nelson Siegel or Bjork-Christenssen. PyCurve is also able to provide
 solutions in order to build yield curve or price Interest rates derivatives 
@@ -30,7 +30,7 @@ Below this is the features that this package tackle :
   - Vasicek Model Simulation
   - Hull and WHite Model Simulation
   - Create Simulation Object given a simulation numpy array in order to get from 
-    simulated model rate Curve, Discount Factor, Forward Rate...
+    simulated model d_rate Curve, Discount Factor, Forward Rate...
   
 - More to come:
   - CIR model will be implemented as soon as Euro Zone Rate will become positive.
@@ -83,13 +83,13 @@ or in order to directly create a curve with data obbserved in the market.
 
 ```sh
 from PyCurve.curve import Curve
-rate = np.array([0.25, 0.5, 0.75, 1., 2., 
+d_rate = np.array([0.25, 0.5, 0.75, 1., 2., 
         3., 4., 5., 10., 15., 
         20.,25.,30.])
 time = np.array([-0.63171, -0.650322, -0.664493, -0.674608, -0.681294,
         -0.647593, -0.587828, -0.51251, -0.101804,  0.182851,
         0.32962,0.392117,  0.412151])
-curve = Curve(rate,time)
+curve = Curve(d_rate,time)
 curve.plot_curve()
 print(curve.get_rate)
 print(curve.get_time)
@@ -124,7 +124,7 @@ a yield curve or to a discount factor curve.
 | get_dt                        | Public  | dt getter                                                                   | _dt          |
 | is_valid_attr(attr)           | Private | Check attributes validity                                                   | attribute    |
 | yield_curve()                 | Public  | Create a yield curve from simulated paths                                   | Curve        |
-| discount_factor()             | Public  | Convert rate simulation to discount factor                                  | np.ndarray   |
+| discount_factor()             | Public  | Convert d_rate simulation to discount factor                                  | np.ndarray   |
 | plot_discount_curve(average)  | Public  | Plot discount factor (average :bool False plot all paths True Plot estimate)| None         |
 | plot_simulation()             | Public  | Plot Yield curve                                                            | None         |
 | plot_yield_curve()            | Public  | Plot Yield curve                                                            | None         |
@@ -156,17 +156,17 @@ you can see example regarding Curve Object in the dedicated section.
 
 ```sh
 from PyCurve import Curve
-rate = np.array([0.25, 0.5, 0.75, 1., 2., 
+d_rate = np.array([0.25, 0.5, 0.75, 1., 2., 
         3., 4., 5., 10., 15., 
         20.,25.,30.])
 time = np.array([-0.63171, -0.650322, -0.664493, -0.674608, -0.681294,
         -0.647593, -0.587828, -0.51251, -0.101804,  0.182851,
         0.32962,0.392117,  0.412151])
-curve = Curve(rate,time)
+curve = Curve(d_rate,time)
 ```
 
 ## linear
-Interpolate any rate from a yield curve using linear interpolation. THis module is build using scipy.interpolate
+Interpolate any d_rate from a yield curve using linear interpolation. THis module is build using scipy.interpolate
 
 | Attributes  | Type    | Description                                       |
 | :----------:|:--------| :------------------------------------------------ |
@@ -175,9 +175,9 @@ Interpolate any rate from a yield curve using linear interpolation. THis module 
 
 | Methods                       | Type    | Description & Params                                                        | Return       |
 |-------------------------------|---------|-----------------------------------------------------------------------------|--------------|    
-| d_rate(t)                     | Public  | rate interpolation t: float, array,int                                      | float        |
+| d_rate(t)                     | Public  | d_rate interpolation t: float, array,int                                      | float        |
 | df_t(t)                       | Public  | discount factor interpolation  t: float, array,int                          | float        |
-| forward(t1,t2)                | Public  | forward rate between t1 and t2     t1,t2: float, array,int                  | float        |
+| forward(t1,t2)                | Public  | forward d_rate between t1 and t2     t1,t2: float, array,int                  | float        |
 | create_curve(t_array)         | Public  | create a Curve object for t values t:array                                  | Curve        |
 | is_valid_attr(attr)           | Private | Check attributes validity                                                   | attribute    |
 
@@ -187,21 +187,21 @@ Interpolate any rate from a yield curve using linear interpolation. THis module 
 ```sh
 from PyCurve.linear import LinearCurve
 linear_curve = LinearCurve(curve)
-print("7.5-year rate : "+str(linear_curve.d_rate(7.5)))
-print("7.5-year discount rate : "+str(linear_curve.df_t(7.5)))
-print("Forward rate between 7.5 and 12.5 years : "+str(linear_curve.forward(7.5,12.5)))
+print("7.5-year d_rate : "+str(linear_curve.d_rate(7.5)))
+print("7.5-year discount d_rate : "+str(linear_curve.df_t(7.5)))
+print("Forward d_rate between 7.5 and 12.5 years : "+str(linear_curve.forward(7.5,12.5)))
 ```
 
 ```yaml
-7.5-year rate : -0.307157
-7.5-year discount rate : 1.0233404498400862
-Forward rate between 7.5 and 12.5 years : 0.5620442499999999
+7.5-year d_rate : -0.307157
+7.5-year discount d_rate : 1.0233404498400862
+Forward d_rate between 7.5 and 12.5 years : 0.5620442499999999
 ```
 
 
 ## cubic
 
-Interpolate any rate from a yield curve using linear interpolation. THis module is build using scipy.interpolate
+Interpolate any d_rate from a yield curve using linear interpolation. THis module is build using scipy.interpolate
 
 | Attributes  | Type    | Description                                       |
 | :----------:|:--------| :------------------------------------------------ |
@@ -210,9 +210,9 @@ Interpolate any rate from a yield curve using linear interpolation. THis module 
 
 | Methods                       | Type    | Description & Params                                                        | Return       |
 |-------------------------------|---------|-----------------------------------------------------------------------------|--------------|    
-| d_rate(t)                     | Public  | rate interpolation t: float, array,int                                      | float        |
+| d_rate(t)                     | Public  | d_rate interpolation t: float, array,int                                      | float        |
 | df_t(t)                       | Public  | discount factor interpolation  t: float, array,int                          | float        |
-| forward(t1,t2)                | Public  | forward rate between t1 and t2     t1,t2: float, array,int                  | float        |
+| forward(t1,t2)                | Public  | forward d_rate between t1 and t2     t1,t2: float, array,int                  | float        |
 | create_curve(t_array)         | Public  | create a Curve object for t values t:array                                  | Curve        |
 | is_valid_attr(attr)           | Private | Check attributes validity                                                   | attribute    |
 
@@ -222,15 +222,15 @@ Interpolate any rate from a yield curve using linear interpolation. THis module 
 ```sh
 from PyCurve.cubic import CubicCurve
 cubic_curve = CubicCurve(curve)
-print("10-year rate : "+str(cubic_curve.d_rate(7.5)))
-print("10-year discount rate : "+str(cubic_curve.df_t(7.5)))
-print("Forward rate between 10 and 20 years : "+str(cubic_curve.forward(7.5,12.5)))
+print("10-year d_rate : "+str(cubic_curve.d_rate(7.5)))
+print("10-year discount d_rate : "+str(cubic_curve.df_t(7.5)))
+print("Forward d_rate between 10 and 20 years : "+str(cubic_curve.forward(7.5,12.5)))
 ```
 
 ```yaml
-10-year rate : -0.3036366057950627
-10-year discount rate : 1.0230694659050514
-Forward rate between 10 and 20 years : 0.6078001168478189
+10-year d_rate : -0.3036366057950627
+10-year discount d_rate : 1.0230694659050514
+Forward d_rate between 10 and 20 years : 0.6078001168478189
 ```
 
 ## Nelson-Siegel
@@ -256,13 +256,13 @@ Forward rate between 10 and 20 years : 0.6078001168478189
 | calibrate(curve)             | Public  | Minimize _calibration_func(x,curve)                                         | sco.OptimizeResult|
 | _time_decay(t)               | Private | Compute the time decay part of the model t (float or array)                 | float,array       |
 | _hump(t)                     | Private | Compute the hump part of the model given t (float or array)                 | float,array       |
-| rate(t)                      | Public  | Get rate from the model for a given time t (float or array)                 | float,array       |
+| d_rate(t)                      | Public  | Get d_rate from the model for a given time t (float or array)                 | float,array       |
 | plot_calibrated()            | Public  | Plot Model curve against Curve                                              | None              |
 | plot_model_params()          | Public  | Plot Model parameters                                                       | None              |
 | plot_model()                 | Public  | Plot Model Components                                                       | None              |
 | df_t(t)                      | Public  | Get the discount factor from the model for a given time t (float or array)  | float,array       |
 | cdf_t(t)                     | Public  | Get the continuous df from the model for a given time t (float or array)    | float,array       |
-| forward_rate(t1,t2)          | Public  | Get the forward rate for a given time t1,t2 (float or array)                | float,array       |
+| forward_rate(t1,t2)          | Public  | Get the forward d_rate for a given time t1,t2 (float or array)                | float,array       |
 
 
 ### Example
@@ -347,13 +347,13 @@ ns.plot_model()
 | _time_decay(t)               | Private | Compute the time decay part of the model t (float or array)                 | float,array       |
 | _hump(t)                     | Private | Compute the hump part of the model given t (float or array)                 | float,array       |
 | _second_hump(t)              | Private | Compute the second hump part of the model given t (float or array)          | float,array       |
-| rate(t)                      | Public  | Get rate from the model for a given time t (float or array)                 | float,array       |
+| d_rate(t)                      | Public  | Get d_rate from the model for a given time t (float or array)                 | float,array       |
 | plot_calibrated()            | Public  | Plot Model curve against Curve                                              | None              |
 | plot_model_params()          | Public  | Plot Model parameters                                                       | None              |
 | plot_model()                 | Public  | Plot Model Components                                                       | None              |
 | df_t(t)                      | Public  | Get the discount factor from the model for a given time t (float or array)  | float,array       |
 | cdf_t(t)                     | Public  | Get the continuous df from the model for a given time t (float or array)    | float,array       |
-| forward_rate(t1,t2)          | Public  | Get the forward rate for a given time t1,t2 (float or array)                | float,array       |
+| forward_rate(t1,t2)          | Public  | Get the forward d_rate for a given time t1,t2 (float or array)                | float,array       |
 
 ### Example
 Creation of a model and calibration 
@@ -426,13 +426,13 @@ nss.plot_model_params()
 | _time_decay(t)               | Private | Compute the time decay part of the model t (float or array)                 | float,array       |
 | _hump(t)                     | Private | Compute the hump part of the model given t (float or array)                 | float,array       |
 | _second_hump(t)              | Private | Compute the second hump part of the model given t (float or array)          | float,array       |
-| rate(t)                      | Public  | Get rate from the model for a given time t (float or array)                 | float,array       |
+| d_rate(t)                      | Public  | Get d_rate from the model for a given time t (float or array)                 | float,array       |
 | plot_calibrated()            | Public  | Plot Model curve against Curve                                              | None              |
 | plot_model_params()          | Public  | Plot Model parameters                                                       | None              |
 | plot_model()                 | Public  | Plot Model Components                                                       | None              |
 | df_t(t)                      | Public  | Get the discount factor from the model for a given time t (float or array)  | float,array       |
 | cdf_t(t)                     | Public  | Get the continuous df from the model for a given time t (float or array)    | float,array       |
-| forward_rate(t1,t2)          | Public  | Get the forward rate for a given time t1,t2 (float or array)                | float,array       |
+| forward_rate(t1,t2)          | Public  | Get the forward d_rate for a given time t1,t2 (float or array)                | float,array       |
 
 ### Example
 Creation of a model and calibration 
@@ -505,13 +505,13 @@ bjc.plot_model()
 | _hump(t)                     | Private | Compute the hump part of the model given t (float or array)                 | float,array       |
 | _second_hump(t)              | Private | Compute the second hump part of the model given t (float or array)          | float,array       |
 | _third_hump(t)               | Private | Compute the third hump part of the model given t (float or array)           | float,array       |
-| rate(t)                      | Public  | Get rate from the model for a given time t (float or array)                 | float,array       |
+| d_rate(t)                      | Public  | Get d_rate from the model for a given time t (float or array)                 | float,array       |
 | plot_calibrated()            | Public  | Plot Model curve against Curve                                              | None              |
 | plot_model_params()          | Public  | Plot Model parameters                                                       | None              |
 | plot_model()                 | Public  | Plot Model Components                                                       | None              |
 | df_t(t)                      | Public  | Get the discount factor from the model for a given time t (float or array)  | float,array       |
 | cdf_t(t)                     | Public  | Get the continuous df from the model for a given time t (float or array)    | float,array       |
-| forward_rate(t1,t2)          | Public  | Get the forward rate for a given time t1,t2 (float or array)                | float,array       |
+| forward_rate(t1,t2)          | Public  | Get the forward d_rate for a given time t1,t2 (float or array)                | float,array       |
 
 ### Example
 Creation of a model and calibration 

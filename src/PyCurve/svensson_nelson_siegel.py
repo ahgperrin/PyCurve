@@ -55,7 +55,7 @@ class NelsonSiegelAugmented:
         ns = NelsonSiegelAugmented(x[0], x[1], x[2], x[3], x[4], x[5])
         curve_estim = np.ones(len(curve.get_time))
         for i in range(len(curve.get_time)):
-            curve_estim[i] = ns.rate(curve.get_time[i])
+            curve_estim[i] = ns.d_rate(curve.get_time[i])
         sqr_error_sum = ((curve_estim - curve.get_rate) ** 2).sum()
         return sqr_error_sum
 
@@ -95,7 +95,7 @@ class NelsonSiegelAugmented:
                                                   (np.array(t, np.float128) / self.tau2))),
                                         np.array(np.exp(-np.array(t, np.float128) / self.tau2)))
 
-    def rate(self, t) -> Union[np.ndarray, float]:
+    def d_rate(self, t) -> Union[np.ndarray, float]:
         first_coefficient = self._time_decay(t)
         second_coefficient = self._hump(t)
         third_coefficient = self._second_hump(t)
@@ -109,7 +109,7 @@ class NelsonSiegelAugmented:
         ax1 = fig.add_subplot(111)
         ax1.set_xlabel('t, years')
         ax1.set_ylabel('Yield')
-        ax1.plot(t, self.rate(t), c="seagreen", label="Calibrated")
+        ax1.plot(t, self.d_rate(t), c="seagreen", label="Calibrated")
         ax1.plot(t, curve.get_rate, c="chocolate", label="Observed")
         plt.legend()
         plt.show()
@@ -121,7 +121,7 @@ class NelsonSiegelAugmented:
         fig.suptitle("Nelson Siegel Svensson Parameters")
         fig.canvas.set_window_title('Nelson Siegel Svensson Parameters')
         ax1 = fig.add_subplot(212)
-        ax1.plot(t, self.rate(t))
+        ax1.plot(t, self.d_rate(t))
         ax1.set_xlabel('t, years')
         ax1.set_ylabel('Yield')
         ax1.set_title('Nelson Siegel Svensson Model')
@@ -149,7 +149,7 @@ class NelsonSiegelAugmented:
         ax = fig.add_subplot(1, 1, 1)
         ax.set_xlabel('t, years')
         ax.set_ylabel('Yield')
-        ax.plot(t, self.rate(t), label="Full Model")
+        ax.plot(t, self.d_rate(t), label="Full Model")
         ax.plot(t, b0, label="Long Term Rate")
         ax.plot(t, self._hump(t), label="Hump")
         ax.plot(t, self._time_decay(t), label="Time Decay")
@@ -158,10 +158,10 @@ class NelsonSiegelAugmented:
         plt.show()
 
     def df_t(self, t) -> Union[np.ndarray, float]:
-        return discrete_df(self.rate(t), t)
+        return discrete_df(self.d_rate(t), t)
 
     def cdf_t(self, t) -> Union[np.ndarray, float]:
-        return continuous_df(self.rate(t), t)
+        return continuous_df(self.d_rate(t), t)
 
     def forward_rate(self, t_1, t_2) -> Union[np.ndarray, float]:
-        return ((self.rate(t_2) * t_2) - (self.rate(t_1) * t_1)) / (t_2 - t_1)
+        return ((self.d_rate(t_2) * t_2) - (self.d_rate(t_1) * t_1)) / (t_2 - t_1)

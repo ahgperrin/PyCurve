@@ -2,6 +2,7 @@ import unittest
 from PyCurve.curve import Curve
 from PyCurve.cubic import CubicCurve
 
+
 class MyTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.curve_1 = Curve([0.25, 0.5, 0.75, 1., 2., 3., 4., 5., 6.,
@@ -16,19 +17,19 @@ class MyTestCase(unittest.TestCase):
                               0.392117, 0.398536, 0.403555, 0.407379, 0.410192, 0.412151])
         self.cub_curve = CubicCurve(self.curve_1)
 
-    def test_rate(self)->None:
+    def test_rate(self) -> None:
         self.assertAlmostEqual(self.cub_curve.d_rate(0.30), -0.63580618, 6)
         self.assertAlmostEqual(self.cub_curve.d_rate(3), -0.647593, 6)
         self.assertAlmostEqual(self.cub_curve.d_rate(10), -0.101804, 6)
         self.assertAlmostEqual(self.cub_curve.forward(10, 20), 0.761044, 6)
 
-    def test_df(self)->None:
-        self.assertAlmostEqual(self.cub_curve.df_t(0.30),  1.0019153400191672, 10)
+    def test_df(self) -> None:
+        self.assertAlmostEqual(self.cub_curve.df_t(0.30), 1.0019153400191672, 10)
         self.assertAlmostEqual(self.cub_curve.df_t(3), 1.0196821584930882, 10)
         self.assertAlmostEqual(self.cub_curve.df_t(10), 1.0102376351919737, 10)
 
-    def test_curve(self)->None:
-        self.curve_2 = self.cub_curve.create_curve([0,5,10,15,20])
+    def test_curve(self) -> None:
+        self.curve_2 = self.cub_curve.create_curve([0, 5, 10, 15, 20])
         self.assertEqual(self.curve_2.get_time, self.curve_2.get_time)
         self.assertEqual(self.curve_2.get_rate[0], self.cub_curve.d_rate(self.curve_2.get_time[0]))
         self.assertEqual(self.curve_2.get_rate[2], self.cub_curve.d_rate(self.curve_2.get_time[2]))

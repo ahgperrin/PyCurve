@@ -61,9 +61,9 @@ class MyTestCase(unittest.TestCase):
 
     def test_bjork_christensen_rate(self) -> None:
         self.bjork_christensen.calibrate(self.curve_1)
-        self.assertAlmostEqual(self.bjork_christensen.rate(1), -0.67627832663938393213, 10)
-        self.assertAlmostEqual(self.bjork_christensen.rate(20), 0.33039622991859094614, 10)
-        self.assertAlmostEqual(self.bjork_christensen.rate(30), 0.40729027000210230784, 10)
+        self.assertAlmostEqual(self.bjork_christensen.d_rate(1), -0.67627832663938393213, 10)
+        self.assertAlmostEqual(self.bjork_christensen.d_rate(20), 0.33039622991859094614, 10)
+        self.assertAlmostEqual(self.bjork_christensen.d_rate(30), 0.40729027000210230784, 10)
         self.assertAlmostEqual(self.bjork_christensen.forward_rate(30, 40), 0.16858548353284021696, 10)
 
     def test_nss_df(self) -> None:

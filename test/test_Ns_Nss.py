@@ -94,16 +94,16 @@ class Test_ns_nss(unittest.TestCase):
 
     def test_nss_rate(self) -> None:
         self.nss.calibrate(self.curve_1)
-        self.assertAlmostEqual(self.nss.rate(1), -0.6892160964115264675, 10)
-        self.assertAlmostEqual(self.nss.rate(20), 0.3062571184311050645, 10)
-        self.assertAlmostEqual(self.nss.rate(30), 0.45661080539385167975, 10)
+        self.assertAlmostEqual(self.nss.d_rate(1), -0.6892160964115264675, 10)
+        self.assertAlmostEqual(self.nss.d_rate(20), 0.3062571184311050645, 10)
+        self.assertAlmostEqual(self.nss.d_rate(30), 0.45661080539385167975, 10)
         self.assertAlmostEqual(self.nss.forward_rate(30, 40), 0.75905851040282940203, 10)
 
     def test_ns_rate(self) -> None:
         self.ns.calibrate(self.curve_1)
-        self.assertAlmostEqual(self.ns.rate(1), -0.68921534129209782287, 10)
-        self.assertAlmostEqual(self.ns.rate(20), 0.30625725996129391995, 10)
-        self.assertAlmostEqual(self.ns.rate(30), 0.45661171324789959496, 10)
+        self.assertAlmostEqual(self.ns.d_rate(1), -0.68921534129209782287, 10)
+        self.assertAlmostEqual(self.ns.d_rate(20), 0.30625725996129391995, 10)
+        self.assertAlmostEqual(self.ns.d_rate(30), 0.45661171324789959496, 10)
         self.assertAlmostEqual(self.ns.forward_rate(30, 40), 0.75906101770412713473, 10)
 
     def test_nss_df(self) -> None:

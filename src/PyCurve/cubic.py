@@ -16,7 +16,7 @@ class CubicCurve:
         return attr
 
     def d_rate(self, t: Union[np.ndarray, Iterable, int, float]) -> Union[np.ndarray, Iterable, int, float]:
-        """Given a maturity return a rate"""
+        """Given a maturity return a d_rate"""
         return self._func_rate(t)
 
     def df_t(self, t: Union[np.ndarray, Iterable, int, float]) -> Union[np.ndarray, Iterable, int, float]:
@@ -25,7 +25,7 @@ class CubicCurve:
 
     def forward(self, t_1: Union[np.ndarray, Iterable, int, float],
                 t_2: Union[np.ndarray, Iterable, int, float]) -> Union[np.ndarray, Iterable, int, float]:
-        """Given two times return the forward rate between t_1/t_2"""
+        """Given two times return the forward d_rate between t_1/t_2"""
         return ((self.d_rate(t_2) * t_2) - (self.d_rate(t_1) * t_1)) / (t_2 - t_1)
 
     def create_curve(self, t_array: Union[np.ndarray, Iterable, int, float]) -> Curve:

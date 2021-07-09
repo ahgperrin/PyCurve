@@ -7,6 +7,8 @@ from PyCurve.simulation import Simulation
 from PyCurve.curve import Curve
 from PyCurve.linear import LinearCurve
 from PyCurve.cubic import CubicCurve
+from PyCurve.svensson_nelson_siegel import NelsonSiegelAugmented
+from PyCurve.bjork_christensen_augmented import BjorkChristensenAugmented
 
 plt.style.use("bmh")
 
@@ -28,10 +30,10 @@ class HullWhite:
 
     @staticmethod
     def set_method(method: Any) -> str:
-        if (method == "cubic") or (method == "linear"):
+        if method in ["cubic", "linear", "bjc", "nss"]:
             return method
         else:
-            raise TypeError("method must be 'linear' or 'cubic'")
+            raise TypeError("method must be 'linear' , 'cubic' , 'bjc' , 'nss' ")
 
     @staticmethod
     def _is_valid_curve(curve: Any) -> Curve:
@@ -48,6 +50,12 @@ class HullWhite:
             curve_interp = LinearCurve(self._f_curve)
         elif self._method == "cubic":
             curve_interp = CubicCurve(self._f_curve)
+        elif self._method == "bjc":
+            curve_interp = BjorkChristensenAugmented(1, 1, 1, 1, 1, 1)
+            curve_interp.calibrate(self._f_curve)
+        elif self._method == "nss":
+            curve_interp = NelsonSiegelAugmented(1, 1, 1, 1, 1, 1)
+            curve_interp.calibrate(self._f_curve)
         return curve_interp.d_rate(t)
 
     def _theta_part(self, t):
