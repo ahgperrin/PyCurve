@@ -83,6 +83,6 @@ class HullWhite:
         ax1.plot(np.linspace(1, simul.get_steps, simul.get_steps) * simul.get_dt,
                  simul.yield_curve().get_rate, lw=3, c="Navy", label="Hull-White Term Structure")
         ax1.plot(curve.get_time, curve.get_rate, c="darkred",
-                 label="Initial Forward Rate Structure", lw=3)
+                 label="Initial Rate Structure", lw=3)
         plt.legend()
         plt.show()
