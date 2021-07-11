@@ -621,6 +621,7 @@ All the tools for graphing from simulation could be applied to vasicek simulatio
 
 ```sh
 from PyCurve.bjork_christensen_augmented import BjorkChristensenAugmented
+from PyCurve.hull_white import HullWhite
 import numpy as np
 from PyCurve.curve import Curve
 
@@ -677,9 +678,9 @@ All the tools for graphing from simulation could be applied to Hull-White simula
 ```sh
 # Hull and white model  with High Volatility
 hull_white_model_low_vol = HullWhite(1, 0.00002, -0.0063, 25, 1 / 365, instantaneous_forward, 'cubic')
-simulation = hull_white_model.simulate_paths(1000)
+simulation = hull_white_model_low_vol.simulate_paths(1000)
 simulation.plot_model()
-hull_white_model.plot_calibrated(simulation,curve)
+hull_white_model_low_vol.plot_calibrated(simulation,curve)
 ```
 
 ![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/hw_model.png?raw=true)
