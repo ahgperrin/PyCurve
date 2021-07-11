@@ -590,7 +590,7 @@ vasicek_model.plot_calibrated(simulation,curve)
 ```
 All the tools for graphing from simulation could be applied to vasicek simulation results.
 
-![](https://github.com/ahgperrin/PyCurve/blob/master/plot_cal_vasi.png?raw=true)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/plot_cal_vasi.png?raw=true)
 
 ## hull & white
 
@@ -670,9 +670,9 @@ Mean Squared Error 3.084012924460394e-06
 Number of Iterations 24
 ____________________________
 ```
-All the tools for graphing from simulation could be applied to vasicek simulation results.
+All the tools for graphing from simulation could be applied to Hull-White simulation results.
 
-![](https://github.com/ahgperrin/PyCurve/blob/master/plot_cal_hw.png?raw=true)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/plot_cal_hw.png?raw=true)
 
 ```sh
 # Hull and white model  with High Volatility
@@ -682,5 +682,5 @@ simulation.plot_model()
 hull_white_model.plot_calibrated(simulation,curve)
 ```
 
-![](https://github.com/ahgperrin/PyCurve/blob/master/hw_model.png?raw=true)
-![](https://github.com/ahgperrin/PyCurve/blob/master/plot_cal_hw_low.png?raw=true)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/hw_model.png?raw=true)
+![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/plot_cal_hw_low.png?raw=true)
