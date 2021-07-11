@@ -9,7 +9,7 @@ setup(
     version='0.0.6',
     author="Antoine Perrin",
     author_email="antoineperrin.pro1@gmail.com",
-    description='Interest Rate Yield Curve Toolkit',
+    description='Interest Rate YiModify Structeld Curve Toolkit',
     py_modules=["actuarial_implementation",
                 "bjork_christensen",
                 "bjork_christensen_augmented",
