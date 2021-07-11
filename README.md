@@ -28,9 +28,7 @@ Below this is the features that this package tackle :
   - Bjork Christensen and Augmented (6 factors) model creation and components plotting
 - Stochastic Modelling:
   - Vasicek Model Simulation
-  - Hull and WHite Model Simulation
-  - Create Simulation Object given a simulation numpy array in order to get from 
-    simulated model d_rate Curve, Discount Factor, Forward Rate...
+  - Hull and White one factor Model Simulation
     
     
 -----------------
@@ -43,7 +41,7 @@ pip install PyCurve
 
 From pypi specific version 
 ```sh
-pip install PyCurve==0.0.3
+pip install PyCurve==0.0.5
 ```
 
 From Git 
@@ -78,24 +76,24 @@ or in order to directly create a curve with data obbserved in the market.
 
 ```sh
 from PyCurve.curve import Curve
-d_rate = np.array([0.25, 0.5, 0.75, 1., 2., 
+time = np.array([0.25, 0.5, 0.75, 1., 2., 
         3., 4., 5., 10., 15., 
         20.,25.,30.])
-time = np.array([-0.63171, -0.650322, -0.664493, -0.674608, -0.681294,
+rate = np.array([-0.63171, -0.650322, -0.664493, -0.674608, -0.681294,
         -0.647593, -0.587828, -0.51251, -0.101804,  0.182851,
         0.32962,0.392117,  0.412151])
-curve = Curve(d_rate,time)
+curve = Curve(rate,time)
 curve.plot_curve()
 print(curve.get_rate)
 print(curve.get_time)
 ```
 ```yaml
-
-[-0.63171  -0.650322 -0.664493 -0.674608 -0.681294 -0.647593 -0.587828
- -0.51251  -0.101804  0.182851  0.32962   0.392117  0.412151]
-  
 [ 0.25  0.5   0.75  1.    2.    3.    4.    5.   10.   15.   20.   25.
  30.  ]
+  
+[-0.63171  -0.650322 -0.664493 -0.674608 -0.681294 -0.647593 -0.587828
+ -0.51251  -0.101804  0.182851  0.32962   0.392117  0.412151]
+
 
 ```
 ![](https://github.com/ahgperrin/PyCurve/blob/master/example_screenshot/curve.png?raw=true)
@@ -151,13 +149,13 @@ you can see example regarding Curve Object in the dedicated section.
 
 ```sh
 from PyCurve import Curve
-d_rate = np.array([0.25, 0.5, 0.75, 1., 2., 
+time = np.array([0.25, 0.5, 0.75, 1., 2., 
         3., 4., 5., 10., 15., 
         20.,25.,30.])
-time = np.array([-0.63171, -0.650322, -0.664493, -0.674608, -0.681294,
+d_rate = np.array([-0.63171, -0.650322, -0.664493, -0.674608, -0.681294,
         -0.647593, -0.587828, -0.51251, -0.101804,  0.182851,
         0.32962,0.392117,  0.412151])
-curve = Curve(d_rate,time)
+curve = Curve(time,d_rate)
 ```
 
 ## linear
@@ -558,6 +556,131 @@ bjc_a.plot_calibrated(curve)
 
 ## vasicek
 
+| Attributes  | Type    | Description                                       |
+| :----------:|:--------| :------------------------------------------------ |
+| alpha       | Private | Model Coefficient alpha (mean reverting speed)    |
+| beta        | Private | Model Coefficient Beta (long term mean)           |
+| sigma       | Private | Short rate Volatility                             |
+| rt          | Private | Initial Short Rate                                |
+| time        | Params  | Time in years                                     |
+| dt          | Private | time for each period                              |
+| steps       | Private | calculated with dt & time as time/dt              |
+
+
+| Methods                      | Type    | Description & Params                                  | Return            |
+|------------------------------|---------|-------------------------------------------------------|-------------------|    
+| get_attr(str(attr))          | Public  | attributes getter                                     | attribute         |
+| sigma_part(n)                | Private | compute n sigma part                                  | float             |
+| mu_dt(rt)                    | Private | compute drift part                                    | float             |
+| simulate_paths(n)            | Public  | Simulate  n Short rate paths                          | np.ndarray        |
+| plot_calibrated(simul,curve) | Public  | Plot yield curve against simulate curve               | None              |
+
+```sh
+time = np.array([0.25, 0.5, 0.75, 1., 2.,
+                 3., 4., 5., 10., 15.,
+                 20., 25., 30.])
+rate = np.array([-0.0063171, -0.00650322, -0.00664493, -0.00674608, -0.00681294,
+                 -0.00647593, -0.00587828, -0.0051251, -0.00101804, 0.00182851,
+                 0.0032962, 0.0030092117, 0.00412151])
+curve = Curve(time,rate)
+vasicek_model = Vasicek(0.5, 0.0040, 0.001, -0.0067, 30, 1 / 365)
+simulation = vasicek_model.simulate_paths(200)
+vasicek_model.plot_calibrated(simulation,curve)
+
+```
+All the tools for graphing from simulation could be applied to vasicek simulation results.
+
+![](https://github.com/ahgperrin/PyCurve/blob/master/plot_cal_vasi.png?raw=true)
 
 ## hull & white
 
+| Attributes  | Type    | Description                                       |
+| :----------:|:--------| :------------------------------------------------ |
+| alpha       | Private | Model Coefficient alpha (mean reverting speed)    |
+| sigma       | Private | Short rate Volatility                             |
+| rt          | Private | Initial Short Rate                                |
+| time        | Params  | Time in years                                     |
+| dt          | Private | time for each period                              |
+| steps       | Private | calculated with dt & time as time/dt              |
+| f_curve     | Private | Curve : Initial instantaneous forward structure   |
+| method      | Private | method used in order to interpolate f_curve       |
+
+
+| Methods                      | Type    | Description & Params                                       | Return            |
+|------------------------------|---------|------------------------------------------------------------|-------------------|    
+| get_attr(str(attr))          | Public  | attributes getter                                          | attribute         |
+| _is_valid_curve(curve)       | Private | Check if the curve given for calibration is a Curve Object | Curve             |
+| sigma_part(n)                | Private | compute n sigma part                                       | float             |
+| interp_forward(t)            | Private | interpolate forward curve for maturity t                   | float             |
+| theta_part(t)                | Private | compute theta(t)                                           | float             |
+| mu_dt(rt,t)                  | Private | compute drift part at time t                               | float             |
+| simulate_paths(n)            | Public  | Simulate  n Short rate paths                               | np.ndarray        |
+| plot_calibrated(simul)       | Public  | Plot yield curve against simulate curve                    | None              |
+
+### Example
+
+```sh
+from PyCurve.bjork_christensen_augmented import BjorkChristensenAugmented
+import numpy as np
+from PyCurve.curve import Curve
+
+# Instance of curve : Spot Rates
+time = np.array([0.25, 0.5, 0.75, 1., 2.,
+                 3., 4., 5., 10., 15.,
+                 20., 25., 30.])
+rate = np.array([-0.0063171, -0.00650322, -0.00664493, -0.00674608, -0.00681294,
+                 -0.00647593, -0.00587828, -0.0051251, -0.00101804, 0.00182851,
+                 0.0032962, 0.00392117, 0.00412151])
+curve = Curve(time, rate)
+
+# Deduce Forward rate via Bjork Christensen (as example but you can directly create an instance of Curve with values)
+
+bjc_a = BjorkChristensenAugmented(0.3, 0.4, 12, 12, 12, 1)
+bjc_a.calibrate(curve)
+forward_curve = [-0.006301821217413436379]
+forward_curve_t = [0]
+for i in range(12):
+    forward_curve.append(bjc_a.forward_rate(time[i], time[i + 1]))
+    forward_curve_t.append(time[i])
+instantaneous_forward = Curve(forward_curve_t, forward_curve)
+
+
+# Hull and white model  with High Volatility
+hull_white_model = HullWhite(1, 0.02, -0.0063, 25, 1 / 365, instantaneous_forward, 'linear')
+simulation = hull_white_model.simulate_paths(1000)
+hull_white_model.plot_calibrated(simulation,curve)
+
+```
+
+```yaml
+Bjork & Christensen Augmented Model
+============================
+beta0 = 0.0003242320890548229
+beta1 = 0.00042283628067360974
+beta2 = 0.014729859086888815
+beta3 = -0.03083749691652102
+beta4 = -0.020626731632810553
+tau = 1.137911384276111
+____________________________
+============================
+Calibration Results
+============================
+CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
+Mean Squared Error 3.084012924460394e-06
+Number of Iterations 24
+____________________________
+```
+All the tools for graphing from simulation could be applied to vasicek simulation results.
+
+![](https://github.com/ahgperrin/PyCurve/blob/master/plot_cal_hw.png?raw=true)
+
+```sh
+# Hull and white model  with High Volatility
+hull_white_model_low_vol = HullWhite(1, 0.00002, -0.0063, 25, 1 / 365, instantaneous_forward, 'cubic')
+simulation = hull_white_model.simulate_paths(1000)
+simulation.plot_model()
+hull_white_model.plot_calibrated(simulation,curve)
+```
+
+![](https://github.com/ahgperrin/PyCurve/blob/master/hw_model.png?raw=true)
+![](https://github.com/ahgperrin/PyCurve/blob/master/plot_cal_hw_low.png?raw=true)

@@ -34,14 +34,14 @@ class Simulation:
 
     def yield_curve(self) -> Curve:
         discount_factor: np.ndarray = self.discount_factor()
-        yield_curve = np.mean(discount_factor, axis=1) ** (-1 / np.full(self.get_steps, self.get_dt).cumsum()) - 1
+        yield_curve = (np.mean(discount_factor, axis=1) ** (-1 / np.full(self.get_steps, self.get_dt).cumsum())) - 1
         return Curve(np.full(self.get_steps, self.get_dt).cumsum(), yield_curve)
 
     def discount_factor(self) -> np.array:
         rieman_sum: np.ndarray = np.zeros(shape=self.get_sim.shape)
         discount_factor: np.ndarray = np.zeros(shape=self.get_sim.shape)
         for sim in range(self.get_nb_sim):
-            rieman_sum[:, sim] = np.cumsum(self.get_sim[:, sim]) * self.get_dt
+            rieman_sum[:, sim] = np.cumsum(np.multiply(self.get_sim[:, sim], self.get_dt))
             discount_factor[:, sim] = np.exp(-rieman_sum[:, sim])
         return discount_factor
 

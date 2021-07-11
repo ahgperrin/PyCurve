@@ -6,10 +6,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='PyCurve',
-    version='0.0.3',
+    version='0.0.5',
     author="Antoine Perrin",
     author_email="antoineperrin.pro1@gmail.com",
-    description='Interest d_rate yield curve packages',
+    description='Interest Rate Yield Curve Toolkit',
     py_modules=["actuarial_implementation",
                 "bjork_christensen",
                 "bjork_christensen_augmented",
@@ -19,7 +19,8 @@ setup(
                 "linear",
                 "nelson_siegel",
                 "svensson_nelson_siegel",
-                "vasicek"],
+                "vasicek",
+                "hull_white"],
     package_dir={'': 'src'},
     packages=setuptools.find_packages(where="src"),
     classifiers=[
