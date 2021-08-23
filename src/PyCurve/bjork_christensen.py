@@ -81,17 +81,17 @@ class BjorkChristensen:
         return calibration_result
 
     def _time_decay(self, t) -> Union[np.ndarray, float]:
-        return self.beta1 * (np.array(((1 - np.exp(-np.array(t) / self.tau)) /
-                                       (np.array(t) / self.tau))))
+        return self.beta1 * (np.array(((1 - np.exp(-np.array(t, np.longdouble) / self.tau)) /
+                                       (np.array(t, np.longdouble) / self.tau))))
 
     def _hump(self, t) -> Union[np.ndarray, float]:
-        return self.beta2 * np.subtract(np.array(((1 - np.exp(-np.array(t) / self.tau)) /
-                                                  (np.array(t) / self.tau))),
-                                        np.array(np.exp(-np.array(t) / self.tau)))
+        return self.beta2 * np.subtract(np.array(((1 - np.exp(-np.array(t, np.longdouble) / self.tau)) /
+                                                  (np.array(t, np.longdouble) / self.tau))),
+                                        np.array(np.exp(-np.array(t, np.longdouble) / self.tau)))
 
     def _second_hump(self, t) -> Union[np.ndarray, float]:
-        return self.beta3 * (np.array(((1 - np.exp(-2 * np.array(t) / self.tau)) /
-                                       (2 * np.array(t) / self.tau))))
+        return self.beta3 * (np.array(((1 - np.exp(-2 * np.array(t, np.longdouble) / self.tau)) /
+                                       (2 * np.array(t, np.longdouble) / self.tau))))
 
     def d_rate(self, t) -> Union[np.ndarray, float]:
         first_coefficient = self._time_decay(t)
