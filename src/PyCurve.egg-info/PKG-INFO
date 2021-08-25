@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
 Name: PyCurve
-Version: 0.0.8
-Summary: Interest Rate YiModify Structeld Curve Toolkit
+Version: 0.0.10
+Summary: Interest Rate Yield Curve Toolkit
 Home-page: https://github.com/ahgperrin/PyCurve
 Author: Antoine Perrin
 Author-email: antoineperrin.pro1@gmail.com

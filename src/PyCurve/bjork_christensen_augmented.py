@@ -106,8 +106,8 @@ class BjorkChristensenAugmented:
 
     def plot_calibrated(self, curve: Curve) -> None:
         fig = plt.figure(figsize=(12.5, 8))
-        fig.suptitle("Bjork Christensen Curve")
-        fig.canvas.set_window_title('Bjork Christensen Curve')
+        fig.suptitle("Bjork Christensen Augmented Curve")
+        fig.canvas.set_window_title('Bjork Christensen Augmented Curve')
         t = curve.get_time
         ax1 = fig.add_subplot(111)
         ax1.set_xlabel('t, years')
@@ -121,13 +121,13 @@ class BjorkChristensenAugmented:
         t = np.linspace(0.0, 50, 1000)
         b0 = np.ones(1000) * self.beta0
         fig = plt.figure(figsize=(12.5, 8))
-        fig.suptitle("Bjork Christensen Parameters")
-        fig.canvas.set_window_title('Bjork Christensen Parameters')
+        fig.suptitle("Bjork Christensen Augmented Parameters")
+        fig.canvas.set_window_title('Bjork Christensen Augmented Parameters')
         ax1 = fig.add_subplot(212)
         ax1.plot(t, self.d_rate(t))
         ax1.set_xlabel('t, years')
         ax1.set_ylabel('Yield')
-        ax1.set_title('Bjork Christensen Model')
+        ax1.set_title('Bjork Christensen Augmented Model')
         ax2 = fig.add_subplot(251)
         ax2.plot(t, b0)
         ax2.set_ylabel('Yield')
@@ -150,8 +150,8 @@ class BjorkChristensenAugmented:
         t = np.linspace(0.001, 50, 1000)
         b0 = np.ones(1000) * self.beta0
         fig = plt.figure()
-        fig.suptitle("Bjork Christensen Components")
-        fig.canvas.set_window_title("Bjork Christensen Components")
+        fig.suptitle("Bjork Christensen Augmented Components")
+        fig.canvas.set_window_title("Bjork Christensen Augmented Components")
         ax = fig.add_subplot(1, 1, 1)
         ax.set_xlabel('t, years')
         ax.set_ylabel('Yield')

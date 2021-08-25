@@ -6,10 +6,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='PyCurve',
-    version='0.0.8',
+    version='0.1.1',
     author="Antoine Perrin",
     author_email="antoineperrin.pro1@gmail.com",
-    description='Interest Rate YiModify Structeld Curve Toolkit',
+    description='Interest Rate Yield Curve Toolkit',
     py_modules=["actuarial_implementation",
                 "bjork_christensen",
                 "bjork_christensen_augmented",
@@ -31,4 +31,4 @@ setup(
     long_description_content_type="text/markdown",
     install_requires=["matplotlib", "pandas", "numpy", "scipy", "typing"],
     url="https://github.com/ahgperrin/PyCurve"
-)
+    )

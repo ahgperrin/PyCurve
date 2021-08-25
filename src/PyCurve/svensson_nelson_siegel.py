@@ -103,8 +103,8 @@ class NelsonSiegelAugmented:
 
     def plot_calibrated(self, curve: Curve) -> None:
         fig = plt.figure(figsize=(12.5, 8))
-        fig.suptitle("Bjork Christensen Curve")
-        fig.canvas.set_window_title('Bjork Christensen Curve')
+        fig.suptitle("Nelson Siegel Svensson Curve")
+        fig.canvas.set_window_title('Nelson Siegel Svensson Curve')
         t = curve.get_time
         ax1 = fig.add_subplot(111)
         ax1.set_xlabel('t, years')
