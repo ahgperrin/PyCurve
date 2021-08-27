@@ -11,7 +11,7 @@ from PyCurve.cubic import CubicCurve
 from PyCurve.svensson_nelson_siegel import NelsonSiegelAugmented
 from PyCurve.bjork_christensen_augmented import BjorkChristensenAugmented
 
-plt.style.use("bmh")
+
 
 
 class HullWhite:

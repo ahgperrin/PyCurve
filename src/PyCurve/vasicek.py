@@ -6,7 +6,7 @@ from PyCurve.curve import Curve
 
 from PyCurve.simulation import Simulation
 
-plt.style.use("bmh")
+
 
 
 class Vasicek:

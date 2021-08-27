@@ -7,7 +7,7 @@ from PyCurve.actuarial_implementation import discrete_df, continuous_df
 from PyCurve.curve import Curve
 
 np.seterr(divide='ignore', invalid='ignore')
-plt.style.use("seaborn-dark")
+
 
 
 class NelsonSiegel:

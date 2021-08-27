@@ -6,7 +6,7 @@ import scipy.optimize as sco
 from PyCurve.actuarial_implementation import discrete_df, continuous_df
 from PyCurve.curve import Curve
 
-plt.style.use("seaborn-darkgrid")
+
 np.seterr(divide='ignore', invalid='ignore')
 
 
