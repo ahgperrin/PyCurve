@@ -1,5 +1,4 @@
 from typing import Any, Union
-
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize as sco
@@ -99,7 +98,7 @@ class BjorkChristensen:
         third_coefficient = self._second_hump(t)
         return self.beta0 + first_coefficient + second_coefficient + third_coefficient
 
-    def plot_calibrated(self, curve: Curve) -> None:
+    def plot_calibrated(self, curve: Curve) -> plt.Figure:
         fig = plt.figure(figsize=(12.5, 8))
         fig.suptitle("Bjork Christensen Curve")
         fig.canvas.set_window_title('Bjork Christensen Curve')
@@ -111,8 +110,9 @@ class BjorkChristensen:
         ax1.plot(t, curve.get_rate, c="chocolate", label="Observed")
         plt.legend()
         plt.show()
+        return fig
 
-    def plot_model_params(self) -> None:
+    def plot_model_params(self) -> plt.Figure:
         t = np.linspace(0.0, 50, 1000)
         b0 = np.ones(1000) * self.beta0
         fig = plt.figure(figsize=(12.5, 8))
@@ -137,8 +137,9 @@ class BjorkChristensen:
         ax5.plot(t, self._second_hump(t))
         ax5.set_title('Second Hump Part')
         plt.show()
+        return fig
 
-    def plot_model(self) -> None:
+    def plot_model(self) -> plt.Figure:
         t = np.linspace(0.001, 50, 1000)
         b0 = np.ones(1000) * self.beta0
         fig = plt.figure()
@@ -154,6 +155,7 @@ class BjorkChristensen:
         ax.plot(t, self._second_hump(t), label="Second Hump")
         plt.legend()
         plt.show()
+        return fig
 
     def df_t(self, t) -> Union[np.ndarray, float]:
         return discrete_df(self.d_rate(t), t)
