@@ -103,6 +103,7 @@ class NelsonSiegel:
         ax1.plot(t, curve.get_rate, c="chocolate", label="Observed")
         plt.legend()
         plt.show()
+        return fig
 
     def plot_model_params(self) -> None:
         t = np.linspace(0, 50, 1000)
@@ -126,6 +127,7 @@ class NelsonSiegel:
         ax4.plot(t, self._hump(t))
         ax4.set_title('Hump Part')
         plt.show()
+        return fig
 
     def plot_model(self) -> None:
         t = np.linspace(0, 50, 1000)
@@ -142,6 +144,7 @@ class NelsonSiegel:
         ax.plot(t, self._time_decay(t), label="Time Decay")
         plt.legend()
         plt.show()
+        return fig
 
     def df_t(self, t) -> Union[np.ndarray, float]:
         return discrete_df(self.d_rate(t), t)

@@ -113,6 +113,7 @@ class NelsonSiegelAugmented:
         ax1.plot(t, curve.get_rate, c="chocolate", label="Observed")
         plt.legend()
         plt.show()
+        return fig
 
     def plot_model_params(self):
         t = np.linspace(0.0, 50, 1000)
@@ -139,6 +140,7 @@ class NelsonSiegelAugmented:
         ax5.plot(t, self._second_hump(t))
         ax5.set_title('Second Hump Part')
         plt.show()
+        return fig
 
     def plot_model(self):
         t = np.linspace(0.001, 50, 1000)
@@ -156,6 +158,7 @@ class NelsonSiegelAugmented:
         ax.plot(t, self._second_hump(t), label="Second Hump")
         plt.legend()
         plt.show()
+        return fig
 
     def df_t(self, t) -> Union[np.ndarray, float]:
         return discrete_df(self.d_rate(t), t)

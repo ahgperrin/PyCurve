@@ -116,6 +116,7 @@ class BjorkChristensenAugmented:
         ax1.plot(t, curve.get_rate, c="chocolate", label="Observed")
         plt.legend()
         plt.show()
+        return fig
 
     def plot_model_params(self) -> None:
         t = np.linspace(0.0, 50, 1000)
@@ -145,6 +146,7 @@ class BjorkChristensenAugmented:
         ax6.plot(t, self._third_hump(t))
         ax6.set_title('Third Hump Part')
         plt.show()
+        return fig
 
     def plot_model(self) -> None:
         t = np.linspace(0.001, 50, 1000)
@@ -163,6 +165,7 @@ class BjorkChristensenAugmented:
         ax.plot(t, self._third_hump(t), label="Third Hump")
         plt.legend()
         plt.show()
+        return fig
 
     def df_t(self, t) -> Union[np.ndarray, float]:
         return discrete_df(self.d_rate(t), t)

@@ -52,3 +52,4 @@ class Vasicek:
                  label="Initial Term Structure", lw=3)
         plt.legend()
         plt.show()
+        return fig

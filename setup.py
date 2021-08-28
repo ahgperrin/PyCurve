@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='PyCurve',
-    version='0.1.2',
+    version='0.1.4',
     author="Antoine Perrin",
     author_email="antoineperrin.pro1@gmail.com",
     description='Interest Rate Yield Curve Toolkit',

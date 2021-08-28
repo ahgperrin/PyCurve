@@ -86,3 +86,4 @@ class HullWhite:
                  label="Initial Rate Structure", lw=3)
         plt.legend()
         plt.show()
+        return fig

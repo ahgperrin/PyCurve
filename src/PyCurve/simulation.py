@@ -67,6 +67,7 @@ class Simulation:
         ax.set_ylabel('Simulated Yield')
         ax.plot(t, self.get_sim, lw=0.5)
         plt.show()
+        return fig
 
     def plot_yield_curve(self) -> None:
         t: np.ndarray = np.full(self.get_steps, self.get_dt).cumsum()
@@ -80,6 +81,7 @@ class Simulation:
         ax.plot(curve.get_time, curve.get_rate, label="Yield Curve", lw=2, c="darkred")
         plt.legend()
         plt.show()
+        return fig
 
     def plot_model(self) -> None:
         t: np.ndarray = np.full(self.get_steps, self.get_dt).cumsum()
@@ -100,3 +102,4 @@ class Simulation:
         ax3.set_ylabel('Yield')
         ax3.plot(curve.get_time, curve.get_rate, lw=2, c="darkred")
         plt.show()
+        return fig
